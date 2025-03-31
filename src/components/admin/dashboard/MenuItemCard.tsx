@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight, ExternalLink, Sparkles, MousePointerClick, Star } from 'lucide-react';
@@ -25,52 +24,65 @@ const MenuItemCard: React.FC<MenuItemCardProps> = ({ item }) => {
   const navigate = useNavigate();
 
   const handleMenuClick = (event: React.MouseEvent) => {
-    // Prevent event propagation so parent elements don't capture the click
     event.stopPropagation();
     event.preventDefault();
     
-    // Add console.log to debug navigation
     console.log('Navigating to:', item.route, 'isExternal:', item.isExternal);
     
     if (item.isExternal) {
       window.open(item.route, '_blank');
-    } else {
-      // Navigate to the appropriate route based on the item's route value
-      if (item.route === 'clients') {
-        navigate('/secure/clients');
-      } else if (item.route === 'tax_credits') {
-        navigate('/secure/tax_credits');
-      } else if (item.route === 'tax_calculator') {
-        navigate('/secure/tax_calculator');
-      } else if (item.route === 'calculations/irrf') {
-        navigate('/secure/calculations/irrf');
-      } else if (item.route === 'irrf_recovery') {
-        navigate('/secure/irrf_recovery');
-      } else if (item.route === 'credit_identification') {
-        navigate('/secure/credit_identification');
-      } else if (item.route === 'detailed_reports') {
-        navigate('/secure/detailed_reports');
-      } else if (item.route === 'tax_compensation_reports') {
-        navigate('/secure/tax_compensation_reports');
-      } else if (item.route === 'interactive_dashboard') {
-        navigate('/secure/interactive_dashboard');
-      } else if (item.route === 'retention_receipts') {
-        navigate('/secure/retention_receipts');
-      } else if (item.route === 'fiscal_reports') {
-        navigate('/secure/fiscal_reports');
-      } else if (item.route === 'commercial/proposals') {
-        navigate('/secure/proposals');
-      } else if (item.route === 'audit_management') {
-        navigate('/secure/audit_management');
-      } else if (item.route.startsWith('/')) {
-        // Route already has a leading slash
-        navigate(item.route);
-      } else if (item.route === 'dashboard') {
-        // For dashboard, navigate to the secure dashboard
-        navigate('/secure/dashboard');
-      } else {
-        navigate(`/secure/${item.route}`);
-      }
+      return;
+    }
+
+    // Mapeamento de rotas
+    const routeMap: { [key: string]: string } = {
+      'clients': '/admin/clients',
+      'tax_credits': '/admin/tax_credits',
+      'tax_calculator': '/admin/tax_calculator',
+      'calculations/irrf': '/admin/calculations/irrf',
+      'irrf_recovery': '/admin/irrf_recovery',
+      'credit_identification': '/admin/credit_identification',
+      'detailed_reports': '/admin/detailed_reports',
+      'tax_compensation_reports': '/admin/tax_compensation_reports',
+      'interactive_dashboard': '/admin/interactive_dashboard',
+      'retention_receipts': '/admin/retention_receipts',
+      'fiscal_reports': '/admin/fiscal_reports',
+      'commercial/proposals': '/admin/proposals',
+      'audit_management': '/admin/audit_management',
+      'dashboard': '/admin',
+      'operational_dashboard': '/admin/operational_dashboard',
+      'operational_audits': '/admin/operational_audits',
+      'operational_receipts': '/admin/operational_receipts',
+      'data_visualization': '/admin/data_visualization',
+      'operational_monitoring': '/admin/operational_monitoring',
+      'compliance_checks': '/admin/compliance_checks',
+      'operational_reports': '/admin/operational_reports',
+      'data_processing': '/admin/data_processing',
+      'data_reconciliation': '/admin/data_reconciliation',
+      'users': '/admin/users',
+      'site': '/admin/site',
+      'settings': '/admin/settings',
+      'admin_profile': '/admin/admin_profile',
+      'two_factor_auth': '/admin/two_factor_auth',
+      'session_expiration': '/admin/session_expiration',
+      'access_protection': '/admin/access_protection',
+      'audit_trails': '/admin/audit_trails',
+      'users_permissions': '/admin/users_permissions'
+    };
+
+    // Se a rota estiver no mapeamento, use-a
+    if (routeMap[item.route]) {
+      navigate(routeMap[item.route]);
+    }
+    // Se a rota já começar com '/', use-a diretamente
+    else if (item.route.startsWith('/')) {
+      navigate(item.route);
+    }
+    // Caso contrário, adicione o prefixo '/admin/'
+    else {
+      const finalRoute = `/admin/${item.route}`;
+      console.log('Navigating to default route:', finalRoute);
+      navigate(finalRoute);
     }
   };
 
