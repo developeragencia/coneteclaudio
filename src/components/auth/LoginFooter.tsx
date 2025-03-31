@@ -1,35 +1,38 @@
-
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { Button } from '@/components/ui/button';
-import { Home } from 'lucide-react';
+import { ExternalLink, Lock } from 'lucide-react';
 
 const LoginFooter: React.FC = () => {
   return (
-    <motion.div 
-      className="flex flex-col items-center gap-4 w-full"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.4, delay: 0.7 }}
+    <motion.div
+      className="space-y-4 text-center"
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5, delay: 0.6 }}
     >
-      <Button 
-        variant="outline" 
-        size="sm" 
-        className="w-full text-xs sm:text-sm hover:bg-primary/10 hover:text-primary border-primary/20 transition-all hover:shadow-sm"
-        asChild
+      <div className="flex items-center justify-center space-x-2 text-sm text-muted-foreground">
+        <Lock className="h-4 w-4" />
+        <span>Conexão segura via SSL</span>
+      </div>
+      
+      <motion.div
+        className="text-xs text-muted-foreground/80"
+        whileHover={{ scale: 1.02 }}
+        transition={{ duration: 0.2 }}
       >
-        <Link to="/">
-          <Home className="h-4 w-4 mr-2" />
-          Voltar para Home
+        <Link 
+          to="/politica-privacidade" 
+          className="hover:text-primary transition-colors flex items-center justify-center space-x-1"
+        >
+          <span>Política de Privacidade</span>
+          <ExternalLink className="h-3 w-3" />
         </Link>
-      </Button>
-      <p className="text-[10px] sm:text-xs text-muted-foreground">
-        Sistema Administrativo © {new Date().getFullYear()} Claudio Figueiredo | 
-        <a href="https://alexdesenvolvedor.com.br" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline ml-1">
-          Alex Developer
-        </a>
-      </p>
+      </motion.div>
+      
+      <div className="text-xs text-muted-foreground/60">
+        © {new Date().getFullYear()} Advogados Associados. Todos os direitos reservados.
+      </div>
     </motion.div>
   );
 };
