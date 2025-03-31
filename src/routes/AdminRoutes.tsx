@@ -51,6 +51,8 @@ const AdminDashboard = lazy(() => import('../components/admin/AdminDashboard'));
 const SiteEditor = lazy(() => import('../components/admin/SiteEditor'));
 const AdminSettings = lazy(() => import('../components/admin/AdminSettings'));
 
+import { AuditPanel } from '@/components/admin/audit/AuditPanel';
+
 const AdminRoutes = () => {
   const location = useLocation();
   const path = location.pathname;
@@ -163,6 +165,7 @@ const AdminRoutes = () => {
         <Route path="data_processing" element={<DataProcessingPanel />} />
         <Route path="data_reconciliation" element={<DataReconciliationPanel />} />
         <Route path="suppliers" element={<SuppliersPanel />} />
+        <Route path="audit" element={<AuditPanel />} />
       </Route>
     </Routes>
   );
