@@ -62,34 +62,34 @@ const Login = () => {
           exit={{ opacity: 0 }}
           transition={{ duration: 0.5 }}
         >
-          <LoginBackground />
-          
-          <motion.div 
-            className="relative w-full max-w-md z-10"
+      <LoginBackground />
+      
+      <motion.div 
+        className="relative w-full max-w-md z-10"
             variants={cardVariants}
             initial="hidden"
             animate="visible"
-          >
-            <Card className="shadow-xl border-primary/10 overflow-hidden bg-white/95 backdrop-blur-md dark:bg-background/80 transition-all duration-300 hover:shadow-primary/5">
+      >
+        <Card className="shadow-xl border-primary/10 overflow-hidden bg-white/95 backdrop-blur-md dark:bg-background/80 transition-all duration-300 hover:shadow-primary/5">
               <motion.div variants={contentVariants}>
-                <CardHeader className="space-y-1 text-center">
-                  <LoginHeader />
-                </CardHeader>
+          <CardHeader className="space-y-1 text-center">
+            <LoginHeader />
+          </CardHeader>
               </motion.div>
 
               <motion.div variants={contentVariants}>
-                <CardContent>
-                  <LoginForm onSuccess={handleLoginSuccess} />
-                </CardContent>
+          <CardContent>
+            <LoginForm onSuccess={handleLoginSuccess} />
+          </CardContent>
               </motion.div>
 
               <motion.div variants={contentVariants}>
-                <CardFooter className="flex justify-center text-center">
-                  <LoginFooter />
-                </CardFooter>
+          <CardFooter className="flex justify-center text-center">
+            <LoginFooter />
+          </CardFooter>
               </motion.div>
-            </Card>
-          </motion.div>
+        </Card>
+      </motion.div>
 
           {/* Decorative elements */}
           <motion.div
