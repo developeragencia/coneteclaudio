@@ -1,3 +1,4 @@
+import { Supplier, SupplierFilter } from '@/types/supplier.types';
 import { supabase } from '@/lib/supabase';
 
 export interface Supplier {
@@ -27,31 +28,28 @@ export interface SupplierFilter {
 }
 
 export class SupplierService {
-  private static TABLE_NAME = 'suppliers';
+  private static readonly TABLE_NAME = 'suppliers';
 
   static async getSuppliers(filter?: SupplierFilter): Promise<Supplier[]> {
-    let query = supabase
-      .from(this.TABLE_NAME)
-      .select('*')
-      .order('name');
+    try {
+      let query = supabase.from(this.TABLE_NAME).select('*');
 
-    if (filter) {
-      if (filter.status) {
-        query = query.eq('status', filter.status);
-      }
+    if (filter?.searchTerm) {
+      query = query.or(`name.ilike.%${filter.searchTerm}%,cnpj.ilike.%${filter.searchTerm}%`);
+    }
 
-      if (filter.searchTerm) {
-        query = query.or(`name.ilike.%${filter.searchTerm}%,cnpj.ilike.%${filter.searchTerm}%`);
-      }
+    if (filter?.status) {
+      query = query.eq('status', filter.status);
     }
 
     const { data, error } = await query;
 
-    if (error) {
-      throw new Error(`Error fetching suppliers: ${error.message}`);
+    if (error) throw error;
+      return data || [];
+    } catch (error) {
+      console.error('Error fetching suppliers:', error);
+      return [];
     }
-
-    return data;
   }
 
   static async getSupplierById(id: string): Promise<Supplier> {
@@ -68,50 +66,50 @@ export class SupplierService {
     return data;
   }
 
-  static async createSupplier(supplier: Omit<Supplier, 'id' | 'createdAt' | 'updatedAt'>): Promise<Supplier> {
+  static async createSupplier(supplier: Omit<Supplier, 'id' | 'createdAt' | 'updatedAt'>): Promise<Supplier | null> {
+    try {
     const { data, error } = await supabase
       .from(this.TABLE_NAME)
-      .insert({
-        ...supplier,
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString()
-      })
+        .insert([supplier])
       .select()
       .single();
 
-    if (error) {
-      throw new Error(`Error creating supplier: ${error.message}`);
+      if (error) throw error;
+      return data;
+    } catch (error) {
+      console.error('Error creating supplier:', error);
+      return null;
     }
-
-    return data;
   }
 
-  static async updateSupplier(id: string, supplier: Partial<Supplier>): Promise<Supplier> {
+  static async updateSupplier(id: string, supplier: Partial<Supplier>): Promise<Supplier | null> {
+    try {
     const { data, error } = await supabase
       .from(this.TABLE_NAME)
-      .update({
-        ...supplier,
-        updatedAt: new Date().toISOString()
-      })
+        .update(supplier)
       .eq('id', id)
       .select()
       .single();
 
-    if (error) {
-      throw new Error(`Error updating supplier: ${error.message}`);
+      if (error) throw error;
+      return data;
+    } catch (error) {
+      console.error('Error updating supplier:', error);
+      return null;
     }
-
-    return data;
   }
 
-  static async deleteSupplier(id: string): Promise<void> {
+  static async deleteSupplier(id: string): Promise<boolean> {
+    try {
     const { error } = await supabase
       .from(this.TABLE_NAME)
       .delete()
       .eq('id', id);
 
-    if (error) {
-      throw new Error(`Error deleting supplier: ${error.message}`);
+      return !error;
+    } catch (error) {
+      console.error('Error deleting supplier:', error);
+      return false;
     }
   }
 

@@ -1,6 +1,6 @@
 export type SupplierStatus = 'active' | 'inactive';
 export type BankAccountType = 'checking' | 'savings';
-export type PixKeyType = 'cpf' | 'cnpj' | 'email' | 'phone' | 'random';
+export type PixKeyType = 'cpf' | 'cnpj' | 'email' | 'phone' | 'random' | '';
 
 export interface Supplier {
   id: string;
@@ -19,8 +19,8 @@ export interface Supplier {
   bankAccountType: BankAccountType;
   pixKey?: string;
   pixKeyType?: PixKeyType;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface SupplierFilter {

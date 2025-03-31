@@ -3,12 +3,13 @@ import { motion } from 'framer-motion';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { Select } from '@/components/ui/select';
+import { Dialog } from '@/components/ui/dialog';
 import { Label } from '@/components/ui/label';
-import { Loader2, Plus, Search, Edit2, Trash2, RefreshCw } from 'lucide-react';
+import { Loader2, Plus, Search } from 'lucide-react';
 import { toast } from 'sonner';
-import { SupplierService, Supplier, SupplierFilter } from '@/services/supplier.service';
+import { SupplierService } from '@/services/supplier.service';
+import type { Supplier } from '@/types/supplier.types';
 
 export function SuppliersPanel() {
   const [loading, setLoading] = useState(false);
