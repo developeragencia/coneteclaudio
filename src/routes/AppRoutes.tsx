@@ -1,11 +1,11 @@
 import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
-import Login from '../pages/Login';
-import AdminDashboard from '../components/admin/AdminDashboard';
-import AdminUsers from '../components/admin/AdminUsers';
-import { ClientsPanel } from '../components/admin/clients/ClientsPanel';
-import { SuppliersPanel } from '../components/admin/suppliers/SuppliersPanel';
-import { PrivateRoute } from '../components/auth/PrivateRoute';
-import AdminLayout from '../components/admin/AdminLayout';
+import Login from '@/pages/Login';
+import AdminDashboard from '@/components/admin/AdminDashboard';
+import AdminUsers from '@/components/admin/AdminUsers';
+import { ClientsPanel } from '@/components/admin/clients/ClientsPanel';
+import { SuppliersPanel } from '@/components/admin/suppliers/SuppliersPanel';
+import { PrivateRoute } from '@/components/auth/PrivateRoute';
+import AdminLayout from '@/components/admin/AdminLayout';
 
 export function AppRoutes() {
   const location = useLocation();
