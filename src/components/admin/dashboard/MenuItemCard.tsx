@@ -50,6 +50,7 @@ const MenuItemCard: React.FC<MenuItemCardProps> = ({ item }) => {
       'commercial/proposals': '/admin/proposals',
       'audit_management': '/admin/audit_management',
       'dashboard': '/admin',
+      'fca': '/admin/fca',
       'operational_dashboard': '/admin/operational_dashboard',
       'operational_audits': '/admin/operational_audits',
       'operational_receipts': '/admin/operational_receipts',

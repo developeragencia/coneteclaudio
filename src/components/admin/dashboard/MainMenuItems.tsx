@@ -12,7 +12,8 @@ import {
   Receipt,
   PieChart,
   FileDigit,
-  Shield
+  Shield,
+  FileSpreadsheet
 } from 'lucide-react';
 import { MenuItem } from './types';
 
@@ -24,6 +25,15 @@ export const getMainMenuItems = (): MenuItem[] => [
     icon: <Building className="h-6 w-6 text-white" />,
     color: 'bg-gradient-to-br from-blue-500 to-blue-700',
     route: 'clients'
+  },
+  {
+    id: 'fca',
+    title: 'Gestão FCA',
+    description: 'Gerencie as Fichas de Controle de Arrecadação com importação, validação e relatórios.',
+    icon: <FileSpreadsheet className="h-6 w-6 text-white" />,
+    color: 'bg-gradient-to-br from-emerald-500 to-emerald-700',
+    route: 'fca',
+    new: true
   },
   {
     id: 'tax_credits',

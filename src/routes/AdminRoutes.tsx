@@ -1,4 +1,3 @@
-
 import React, { lazy, Suspense } from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom';
 import AdminLoading from '../components/admin/AdminLoading';
@@ -29,6 +28,7 @@ import CreditIdentificationPanel from '../components/admin/tax-credits/identific
 import AuditManagementPanel from '../components/admin/audit/AuditManagementPanel';
 import AdminProfileSettings from '../components/admin/profile/AdminProfileSettings';
 import UsersPermissionsPanel from '../components/admin/users/UsersPermissionsPanel';
+import FCAPanel from '../components/admin/fca/FCAPanel';
 
 // Operational routes components
 import OperationalDashboardPanel from '../components/admin/operational/OperationalDashboardPanel';
@@ -58,6 +58,7 @@ const AdminRoutes = () => {
     if (path.includes('/admin/settings')) return 'settings';
     if (path.includes('/admin/tax_credits')) return 'tax_credits';
     if (path.includes('/admin/clients')) return 'clients';
+    if (path.includes('/admin/fca')) return 'fca';
     if (path.includes('/admin/credit_identification')) return 'credit_identification';
     if (path.includes('/admin/operational_imports')) return 'operational_imports';
     if (path.includes('/admin/imports/filter')) return 'imports_filter';
@@ -124,6 +125,7 @@ const AdminRoutes = () => {
         <Route path="admin_profile" element={<AdminProfileSettings />} />
         <Route path="tax_credits" element={<TaxCreditManagement />} />
         <Route path="clients" element={<ClientManagement />} />
+        <Route path="fca" element={<FCAPanel />} />
         <Route path="credit_identification" element={<CreditIdentificationPanel />} />
         <Route path="operational_imports" element={<OperationalImportsPanel />} />
         <Route path="imports/filter" element={<DataFilterPanel />} />
