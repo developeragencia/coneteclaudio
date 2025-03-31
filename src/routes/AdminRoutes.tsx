@@ -1,8 +1,11 @@
 import React, { lazy, Suspense } from 'react';
-import { Route, Routes, useLocation } from 'react-router-dom';
+import { Route, Routes, useLocation, Navigate } from 'react-router-dom';
 import AdminLoading from '../components/admin/AdminLoading';
 import AdminLayout from '../components/admin/AdminLayout';
 import { SuppliersPanel } from '@/components/admin/suppliers/SuppliersPanel';
+import { DashboardPanel } from '@/components/admin/dashboard/DashboardPanel';
+import { UsersPanel } from '@/components/admin/users/UsersPanel';
+import { ClientsPanel } from '@/components/admin/clients/ClientsPanel';
 
 // Eager-loaded components
 import TaxCreditManagement from '../components/admin/tax-credits/TaxCreditManagement';
