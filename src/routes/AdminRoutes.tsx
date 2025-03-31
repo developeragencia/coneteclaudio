@@ -2,6 +2,7 @@ import React, { lazy, Suspense } from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom';
 import AdminLoading from '../components/admin/AdminLoading';
 import AdminLayout from '../components/admin/AdminLayout';
+import { SuppliersPanel } from '@/components/admin/suppliers/SuppliersPanel';
 
 // Eager-loaded components
 import TaxCreditManagement from '../components/admin/tax-credits/TaxCreditManagement';
@@ -158,6 +159,7 @@ const AdminRoutes = () => {
         <Route path="operational_reports" element={<OperationalReportsPanel />} />
         <Route path="data_processing" element={<DataProcessingPanel />} />
         <Route path="data_reconciliation" element={<DataReconciliationPanel />} />
+        <Route path="suppliers" element={<SuppliersPanel />} />
       </Route>
     </Routes>
   );
