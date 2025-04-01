@@ -1,69 +1,84 @@
-# Welcome to your Lovable project
+# SecureBridgeConnect
 
-## Project info
+Uma aplicação web moderna e segura para gerenciamento de conexões.
 
-**URL**: https://lovable.dev/projects/73ccc878-8c9f-4c58-9422-be63a562d1fc
+## 🚀 Tecnologias
 
-## How can I edit this code?
+- [React](https://reactjs.org/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [Vite](https://vitejs.dev/)
+- [TailwindCSS](https://tailwindcss.com/)
+- [Radix UI](https://www.radix-ui.com/)
+- [Framer Motion](https://www.framer.com/motion/)
 
-There are several ways of editing your application.
+## 📦 Instalação
 
-**Use Lovable**
+```bash
+# Clone o repositório
+git clone https://github.com/seu-usuario/secure-bridge-connect.git
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/73ccc878-8c9f-4c58-9422-be63a562d1fc) and start prompting.
+# Entre na pasta do projeto
+cd secure-bridge-connect
 
-Changes made via Lovable will be committed automatically to this repo.
+# Instale as dependências
+npm install
 
-**Use your preferred IDE**
+# Copie o arquivo de exemplo de variáveis de ambiente
+cp .env.example .env
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
+# Inicie o servidor de desenvolvimento
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+## 🚀 Deploy
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+### Vercel
 
-**Use GitHub Codespaces**
+1. Crie uma conta na [Vercel](https://vercel.com)
+2. Instale a CLI da Vercel:
+```bash
+npm i -g vercel
+```
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+3. Faça login na sua conta:
+```bash
+vercel login
+```
 
-## What technologies are used for this project?
+4. Configure as variáveis de ambiente:
+```bash
+vercel env add VITE_API_URL
+```
 
-This project is built with .
+5. Faça o deploy:
+```bash
+vercel
+```
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+### Build Manual
 
-## How can I deploy this project?
+1. Crie o build de produção:
+```bash
+npm run build
+```
 
-Simply open [Lovable](https://lovable.dev/projects/73ccc878-8c9f-4c58-9422-be63a562d1fc) and click on Share -> Publish.
+2. Teste o build localmente:
+```bash
+npm run preview
+```
 
-## I want to use a custom domain - is that possible?
+3. O diretório `dist` contém os arquivos estáticos prontos para deploy.
 
-We don't support custom domains (yet). If you want to deploy your project under your own domain then we recommend using Netlify. Visit our docs for more details: [Custom domains](https://docs.lovable.dev/tips-tricks/custom-domain/)
+## 📝 Scripts
+
+- `npm run dev` - Inicia o servidor de desenvolvimento
+- `npm run build` - Gera o build de produção
+- `npm run preview` - Testa o build localmente
+- `npm run lint` - Executa o linter
+- `npm run format` - Formata os arquivos com Prettier
+- `npm test` - Executa os testes
+- `npm run test:coverage` - Executa os testes com cobertura
+
+## 📄 Licença
+
+Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.

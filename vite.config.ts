@@ -47,19 +47,10 @@ export default defineConfig(({ mode }) => ({
         main: path.resolve(__dirname, "index.html"),
       },
       output: {
-        manualChunks: (id) => {
-          if (id.includes('node_modules')) {
-            if (id.includes('react') || id.includes('react-dom') || id.includes('react-router')) {
-              return 'react-vendor';
-            }
-            if (id.includes('@chakra-ui') || id.includes('@emotion')) {
-              return 'chakra-vendor';
-            }
-            if (id.includes('@tanstack') || id.includes('axios')) {
-              return 'utils-vendor';
-            }
-            return 'vendor';
-          }
+        manualChunks: {
+          'react-vendor': ['react', 'react-dom', 'react-router-dom'],
+          'ui-vendor': ['@radix-ui/react-toast', '@radix-ui/react-slot', 'class-variance-authority', 'clsx', 'tailwind-merge'],
+          'animation-vendor': ['framer-motion'],
         },
         entryFileNames: 'assets/[name].[hash].js',
         chunkFileNames: 'assets/[name].[hash].js',
