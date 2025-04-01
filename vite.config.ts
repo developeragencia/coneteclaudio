@@ -6,10 +6,10 @@ import tsconfigPaths from "vite-tsconfig-paths";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
-  base: '/',
+  base: './',
   publicDir: 'public',
   server: {
-    host: "::",
+    host: true,
     port: 8080,
     proxy: {
       '/api': {
@@ -41,14 +41,25 @@ export default defineConfig(({ mode }) => ({
     assetsDir: "assets",
     emptyOutDir: true,
     sourcemap: false,
+    chunkSizeWarningLimit: 1600,
     rollupOptions: {
       input: {
         main: path.resolve(__dirname, "index.html"),
       },
       output: {
-        manualChunks: {
-          'react-vendor': ['react', 'react-dom', 'react-router-dom'],
-          'chakra-vendor': ['@chakra-ui/react', '@emotion/react', '@emotion/styled'],
+        manualChunks: (id) => {
+          if (id.includes('node_modules')) {
+            if (id.includes('react') || id.includes('react-dom') || id.includes('react-router')) {
+              return 'react-vendor';
+            }
+            if (id.includes('@chakra-ui') || id.includes('@emotion')) {
+              return 'chakra-vendor';
+            }
+            if (id.includes('@tanstack') || id.includes('axios')) {
+              return 'utils-vendor';
+            }
+            return 'vendor';
+          }
         },
         entryFileNames: 'assets/[name].[hash].js',
         chunkFileNames: 'assets/[name].[hash].js',
@@ -58,5 +69,8 @@ export default defineConfig(({ mode }) => ({
   },
   esbuild: {
     logOverride: { 'this-is-undefined-in-esm': 'silent' }
+  },
+  optimizeDeps: {
+    include: ['react', 'react-dom', 'react-router-dom', '@chakra-ui/react']
   }
 }));
