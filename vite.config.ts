@@ -6,6 +6,7 @@ import tsconfigPaths from "vite-tsconfig-paths";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
+  base: './',
   server: {
     host: "::",
     port: 8080,
@@ -86,28 +87,9 @@ export default defineConfig(({ mode }) => ({
           
           return null;
         },
-        chunkFileNames: (chunkInfo) => {
-          const name = chunkInfo?.name || '';
-          if (name?.includes('vendor')) {
-            return 'assets/vendor/[name]-[hash].js';
-          }
-          if (name?.includes('feature-')) {
-            return 'assets/features/[name]-[hash].js';
-          }
-          return 'assets/[name]-[hash].js';
-        },
-        assetFileNames: (assetInfo) => {
-          const name = assetInfo?.name || '';
-          const extType = name.split('.')[1] || '';
-          if (/png|jpe?g|svg|gif|tiff|bmp|ico/i.test(extType)) {
-            return 'assets/images/[name]-[hash][extname]';
-          }
-          if (/css/i.test(extType)) {
-            return 'assets/css/[name]-[hash][extname]';
-          }
-          return 'assets/[name]-[hash][extname]';
-        },
-        entryFileNames: 'assets/[name]-[hash].js',
+        chunkFileNames: 'assets/[name].[hash].js',
+        assetFileNames: 'assets/[name].[hash][extname]',
+        entryFileNames: 'assets/[name].[hash].js',
       },
     },
     chunkSizeWarningLimit: 1000,

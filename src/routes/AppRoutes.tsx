@@ -11,8 +11,11 @@ const ClientsPanel = lazy(() => import('@/components/admin/clients/ClientsPanel'
 const SuppliersPanel = lazy(() => import('@/components/admin/suppliers/SuppliersPanel').then(m => ({ default: m.SuppliersPanel })));
 
 const LoadingFallback = () => (
-  <div className="flex items-center justify-center min-h-screen">
-    <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-primary"></div>
+  <div className="fixed inset-0 flex items-center justify-center bg-background">
+    <div className="flex flex-col items-center gap-4">
+      <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+      <p className="text-muted-foreground">Carregando...</p>
+    </div>
   </div>
 );
 
