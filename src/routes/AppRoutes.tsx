@@ -2,14 +2,19 @@ import { lazy, Suspense } from 'react';
 import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { PrivateRoute } from '@/components/auth/PrivateRoute';
 import AdminLayout from '@/components/admin/AdminLayout';
-import LoadingSpinner from '@/components/ui/loading-spinner';
 
 // Lazy loaded components
 const Login = lazy(() => import('@/pages/Login'));
 const AdminDashboard = lazy(() => import('@/components/admin/AdminDashboard'));
 const AdminUsers = lazy(() => import('@/components/admin/AdminUsers'));
-const ClientsPanel = lazy(() => import('@/components/admin/clients/ClientsPanel'));
-const SuppliersPanel = lazy(() => import('@/components/admin/suppliers/SuppliersPanel'));
+const ClientsPanel = lazy(() => import('@/components/admin/clients/ClientsPanel').then(m => ({ default: m.ClientsPanel })));
+const SuppliersPanel = lazy(() => import('@/components/admin/suppliers/SuppliersPanel').then(m => ({ default: m.SuppliersPanel })));
+
+const LoadingFallback = () => (
+  <div className="flex items-center justify-center min-h-screen">
+    <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-primary"></div>
+  </div>
+);
 
 export function AppRoutes() {
   const location = useLocation();
@@ -27,7 +32,7 @@ export function AppRoutes() {
       {/* Rota pública */}
       <Route path="/" element={<Navigate to="/login" replace />} />
       <Route path="/login" element={
-        <Suspense fallback={<LoadingSpinner />}>
+        <Suspense fallback={<LoadingFallback />}>
           <Login />
         </Suspense>
       } />
@@ -37,22 +42,22 @@ export function AppRoutes() {
         <Route element={<AdminLayout activeTab={getActiveTab()} />}>
           <Route path="/admin" element={<Navigate to="/admin/dashboard" replace />} />
           <Route path="/admin/dashboard" element={
-            <Suspense fallback={<LoadingSpinner />}>
+            <Suspense fallback={<LoadingFallback />}>
               <AdminDashboard />
             </Suspense>
           } />
           <Route path="/admin/users" element={
-            <Suspense fallback={<LoadingSpinner />}>
+            <Suspense fallback={<LoadingFallback />}>
               <AdminUsers />
             </Suspense>
           } />
           <Route path="/admin/clients" element={
-            <Suspense fallback={<LoadingSpinner />}>
+            <Suspense fallback={<LoadingFallback />}>
               <ClientsPanel />
             </Suspense>
           } />
           <Route path="/admin/suppliers" element={
-            <Suspense fallback={<LoadingSpinner />}>
+            <Suspense fallback={<LoadingFallback />}>
               <SuppliersPanel />
             </Suspense>
           } />
