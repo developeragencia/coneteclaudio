@@ -60,16 +60,31 @@ export default defineConfig(({ mode }) => ({
             return 'vendor';
           }
           
-          // App chunks
-          if (id.includes('/components/admin/')) return 'admin';
+          // Admin sub-chunks
+          if (id.includes('/components/admin/')) {
+            if (id.includes('/dashboard')) return 'admin-dashboard';
+            if (id.includes('/users')) return 'admin-users';
+            if (id.includes('/clients')) return 'admin-clients';
+            if (id.includes('/suppliers')) return 'admin-suppliers';
+            if (id.includes('/tax-credits')) return 'admin-tax-credits';
+            if (id.includes('/tax-reports')) return 'admin-tax-reports';
+            if (id.includes('/operational')) return 'admin-operational';
+            return 'admin-core'; // Layout e componentes compartilhados
+          }
+          
+          // Other app chunks
           if (id.includes('/components/auth/')) return 'auth';
           if (id.includes('/components/ui/')) return 'ui';
+          if (id.includes('/pages/')) return 'pages';
           return null;
         },
         chunkFileNames: (chunkInfo) => {
           const name = chunkInfo.name;
           if (name?.includes('vendor')) {
             return 'assets/vendor/[name]-[hash].js';
+          }
+          if (name?.includes('admin-')) {
+            return 'assets/admin/[name]-[hash].js';
           }
           return 'assets/[name]-[hash].js';
         },
