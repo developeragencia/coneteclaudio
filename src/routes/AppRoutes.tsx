@@ -1,31 +1,39 @@
-import { lazy, Suspense } from 'react';
-import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
-import { PrivateRoute } from '@/components/auth/PrivateRoute';
-import AdminLayout from '@/components/admin/AdminLayout';
-import { LoadingFallback } from '@/components/ui/LoadingFallback';
+import { Routes, Route, Navigate, useLocation } from "react-router-dom";
+import { Suspense, lazy } from "react";
+import AdminLayout from "@/components/admin/AdminLayout";
+import { PrivateRoute } from "@/components/auth/PrivateRoute";
+import { LoadingFallback } from "@/components/ui/LoadingFallback";
 
-// Lazy loaded components
-const Login = lazy(() => import('@/pages/Login'));
-const AdminDashboard = lazy(() => import('@/components/admin/AdminDashboard'));
-const AdminUsers = lazy(() => import('@/components/admin/AdminUsers'));
-const ClientsPanel = lazy(() => import('@/components/admin/clients/ClientsPanel').then(m => ({ default: m.ClientsPanel })));
-const SuppliersPanel = lazy(() => import('@/components/admin/suppliers/SuppliersPanel').then(m => ({ default: m.SuppliersPanel })));
+// Lazy loading dos componentes
+const Home = lazy(() => import("@/pages/Home"));
+const Login = lazy(() => import("@/pages/Login"));
+const AdminDashboard = lazy(() => import("@/components/admin/AdminDashboard"));
+const AdminUsers = lazy(() => import("@/components/admin/AdminUsers"));
+const ClientsPanel = lazy(() => import("@/components/admin/clients/ClientsPanel").then(m => ({ default: m.ClientsPanel })));
+const SuppliersPanel = lazy(() => import("@/components/admin/suppliers/SuppliersPanel").then(m => ({ default: m.SuppliersPanel })));
 
 export function AppRoutes() {
   const location = useLocation();
-  
-  // Determine active tab based on route
+
   const getActiveTab = () => {
-    if (location.pathname.includes('/admin/users')) return 'users';
-    if (location.pathname.includes('/admin/clients')) return 'clients';
-    if (location.pathname.includes('/admin/suppliers')) return 'suppliers';
-    return 'dashboard';
+    const path = location.pathname;
+    if (path.includes("/admin/dashboard")) return "dashboard";
+    if (path.includes("/admin/users")) return "users";
+    if (path.includes("/admin/clients")) return "clients";
+    if (path.includes("/admin/suppliers")) return "suppliers";
+    return "dashboard";
   };
 
   return (
     <Routes>
-      {/* Rota pública */}
-      <Route path="/" element={<Navigate to="/login" replace />} />
+      {/* Rota pública - Home */}
+      <Route path="/" element={
+        <Suspense fallback={<LoadingFallback />}>
+          <Home />
+        </Suspense>
+      } />
+
+      {/* Rota pública - Login */}
       <Route path="/login" element={
         <Suspense fallback={<LoadingFallback />}>
           <Login />
@@ -60,7 +68,7 @@ export function AppRoutes() {
       </Route>
 
       {/* Rota para páginas não encontradas */}
-      <Route path="*" element={<Navigate to="/admin/dashboard" replace />} />
+      <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );
 } 

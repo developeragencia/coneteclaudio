@@ -39,13 +39,5 @@
     }
   ],
   "cleanUrls": true,
-  "trailingSlash": false,
-  "routes": [
-    {
-      "src": "/service-worker.js",
-      "headers": {
-        "cache-control": "public, max-age=0, must-revalidate"
-      }
-    }
-  ]
+  "trailingSlash": false
 }
