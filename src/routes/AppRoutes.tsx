@@ -4,13 +4,13 @@ import AdminLayout from "@/components/admin/AdminLayout";
 import { PrivateRoute } from "@/components/auth/PrivateRoute";
 import { LoadingFallback } from "@/components/ui/LoadingFallback";
 
-// Lazy loading dos componentes
-const Home = lazy(() => import("@/pages/Home"));
-const Login = lazy(() => import("@/pages/Login"));
-const AdminDashboard = lazy(() => import("@/components/admin/AdminDashboard"));
-const AdminUsers = lazy(() => import("@/components/admin/AdminUsers"));
-const ClientsPanel = lazy(() => import("@/components/admin/clients/ClientsPanel").then(m => ({ default: m.ClientsPanel })));
-const SuppliersPanel = lazy(() => import("@/components/admin/suppliers/SuppliersPanel").then(m => ({ default: m.SuppliersPanel })));
+// Lazy loading dos componentes com tratamento de erro
+const Home = lazy(() => import("@/pages/Home").catch(() => ({ default: () => <Navigate to="/error" /> })));
+const Login = lazy(() => import("@/pages/Login").catch(() => ({ default: () => <Navigate to="/error" /> })));
+const AdminDashboard = lazy(() => import("@/components/admin/AdminDashboard").catch(() => ({ default: () => <Navigate to="/error" /> })));
+const AdminUsers = lazy(() => import("@/components/admin/AdminUsers").catch(() => ({ default: () => <Navigate to="/error" /> })));
+const ClientsPanel = lazy(() => import("@/components/admin/clients/ClientsPanel").then(m => ({ default: m.ClientsPanel })).catch(() => ({ default: () => <Navigate to="/error" /> })));
+const SuppliersPanel = lazy(() => import("@/components/admin/suppliers/SuppliersPanel").then(m => ({ default: m.SuppliersPanel })).catch(() => ({ default: () => <Navigate to="/error" /> })));
 
 export function AppRoutes() {
   const location = useLocation();
@@ -66,6 +66,22 @@ export function AppRoutes() {
           } />
         </Route>
       </Route>
+
+      {/* Rota de erro */}
+      <Route path="/error" element={
+        <div className="min-h-screen flex items-center justify-center">
+          <div className="text-center">
+            <h1 className="text-2xl font-bold mb-2">Erro ao carregar</h1>
+            <p className="text-muted-foreground mb-4">Ocorreu um erro ao carregar a página</p>
+            <button 
+              onClick={() => window.location.reload()} 
+              className="px-4 py-2 bg-primary text-white rounded-md hover:bg-primary/90"
+            >
+              Tentar novamente
+            </button>
+          </div>
+        </div>
+      } />
 
       {/* Rota para páginas não encontradas */}
       <Route path="*" element={<Navigate to="/" replace />} />
