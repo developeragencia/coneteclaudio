@@ -1,4 +1,3 @@
-
 import React from 'react';
 import {
   Home,
@@ -11,14 +10,13 @@ import {
   Paintbrush,
   CreditCard,
   Calculator,
-  BriefcaseBusiness,
+  Briefcase,
   Building,
   BarChart3,
   Receipt,
   ServerCog,
   FileDigit,
   FileClock,
-  ChartPie,
   FileSpreadsheet,
   FolderCheck,
   Search,
@@ -93,7 +91,7 @@ export const getMenuSections = () => [
       {
         id: 'irrf_recovery',
         label: 'Recuperação IRRF/PJ',
-        icon: <BriefcaseBusiness className="h-4 w-4" />,
+        icon: <Briefcase className="h-4 w-4" />,
       },
       {
         id: 'credit_identification',
@@ -113,7 +111,7 @@ export const getMenuSections = () => [
       {
         id: 'interactive_dashboard',
         label: 'Dashboard Interativo',
-        icon: <ChartPie className="h-4 w-4" />,
+        icon: <PieChart className="h-4 w-4" />,
       },
       {
         id: 'retention_receipts',
