@@ -1,8 +1,7 @@
-
 import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { BriefcaseBusiness, FileSearch, FileSpreadsheet, Clock, DollarSign } from 'lucide-react';
+import { Briefcase, FileSearch, FileSpreadsheet, Clock, DollarSign } from 'lucide-react';
 
 const IRRFRecoveryPanel = () => {
   return (
@@ -61,7 +60,7 @@ const IRRFRecoveryPanel = () => {
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <BriefcaseBusiness className="h-5 w-5 text-primary" />
+                <Briefcase className="h-5 w-5 text-primary" />
                 Análise de Retenções
               </CardTitle>
               <CardDescription>

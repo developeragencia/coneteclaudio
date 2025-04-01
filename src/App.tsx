@@ -1,11 +1,13 @@
 import { AppRoutes } from './routes/AppRoutes';
-import { Toaster } from 'sonner';
+import { Toaster } from '@/components/ui/toaster';
 
-export function App() {
+const App = () => {
   return (
-    <BrowserRouter>
+    <>
       <AppRoutes />
-      <Toaster position="top-right" />
-    </BrowserRouter>
+      <Toaster />
+    </>
   );
-}
+};
+
+export default App;
