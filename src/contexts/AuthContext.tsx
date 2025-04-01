@@ -1,4 +1,3 @@
-
 import React, { createContext, useCallback, useEffect, useState } from 'react';
 import { User } from '@/types/user';
 import { useToast } from '@/components/ui/use-toast';
@@ -10,21 +9,22 @@ interface AuthContextData {
   signIn: (credentials: { email: string; password: string }) => Promise<void>;
   signOut: () => void;
   updateUser: (user: User) => void;
-  navigate?: (path: string) => void; // Adicionado para receber a função navigate como prop
+  navigate?: (path: string) => void;
 }
-
-export const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 
 interface AuthProviderProps {
   children: React.ReactNode;
-  navigate?: (path: string) => void; // Recebe o navigate como prop em vez de usar o hook
+  navigate?: (path: string) => void;
 }
+
+export const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children, navigate }) => {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const { toast } = useToast();
 
+  // Carrega os dados do usuário do localStorage
   useEffect(() => {
     const loadStoredData = async () => {
       try {
@@ -33,62 +33,59 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children, navigate }
 
         if (storedUser && storedToken) {
           const parsedUser = JSON.parse(storedUser);
-          // Garante que as permissões estão atualizadas
           parsedUser.permissions = getAvailablePermissions(parsedUser.role);
           setUser(parsedUser);
-          // TODO: Validar token e renovar se necessário
         }
       } catch (error) {
         console.error('Erro ao carregar dados armazenados:', error);
         localStorage.removeItem('@SecureBridgeConnect:user');
         localStorage.removeItem('@SecureBridgeConnect:token');
       } finally {
-        setIsLoading(false);
+        // Garante que o loading é finalizado após um tempo mínimo
+        setTimeout(() => {
+          setIsLoading(false);
+        }, 500);
       }
     };
 
     loadStoredData();
   }, []);
 
-  const signIn = useCallback(async ({ email, password }: { email: string; password: string }) => {
+  const signIn = useCallback(async (credentials: { email: string; password: string }) => {
     try {
       setIsLoading(true);
+      
+      // Simula uma chamada à API
+      await new Promise(resolve => setTimeout(resolve, 1000));
 
-      // TODO: Implementar autenticação com a API
-      const response = {
-        user: {
-          id: '1',
-          name: 'John Doe',
-          email,
-          role: 'MASTER_ADMIN' as const,
-          permissions: getAvailablePermissions('MASTER_ADMIN'),
-          createdAt: new Date().toISOString(),
-          updatedAt: new Date().toISOString(),
-        },
-        token: 'dummy-token',
+      // Mock de usuário para desenvolvimento
+      const mockUser = {
+        id: '1',
+        name: 'Admin',
+        email: credentials.email,
+        role: 'admin',
+        permissions: ['admin'],
+        avatar: null
       };
 
-      const { user: userData, token } = response;
+      localStorage.setItem('@SecureBridgeConnect:user', JSON.stringify(mockUser));
+      localStorage.setItem('@SecureBridgeConnect:token', 'mock-token');
 
-      localStorage.setItem('@SecureBridgeConnect:user', JSON.stringify(userData));
-      localStorage.setItem('@SecureBridgeConnect:token', token);
-
-      setUser(userData);
-      
-      // Use the navigate function passed through props
-      if (navigate) {
-        navigate('/dashboard');
-      }
-
+      setUser(mockUser);
       toast({
-        title: 'Login realizado com sucesso',
-        description: `Bem-vindo(a), ${userData.name}!`,
+        title: "Login realizado com sucesso",
+        description: "Bem-vindo de volta!",
       });
+
+      if (navigate) {
+        navigate('/admin');
+      }
     } catch (error) {
+      console.error('Erro ao fazer login:', error);
       toast({
-        title: 'Erro ao fazer login',
-        description: 'Ocorreu um erro ao fazer login. Verifique suas credenciais.',
-        variant: 'destructive',
+        variant: "destructive",
+        title: "Erro ao fazer login",
+        description: "Verifique suas credenciais e tente novamente.",
       });
     } finally {
       setIsLoading(false);
@@ -100,19 +97,17 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children, navigate }
     localStorage.removeItem('@SecureBridgeConnect:token');
     setUser(null);
     
-    // Use the navigate function passed through props
+    toast({
+      title: "Logout realizado com sucesso",
+      description: "Até logo!",
+    });
+
     if (navigate) {
       navigate('/login');
     }
-
-    toast({
-      title: 'Logout realizado com sucesso',
-      description: 'Você foi desconectado com sucesso.',
-    });
   }, [navigate, toast]);
 
   const updateUser = useCallback((userData: User) => {
-    // Garante que as permissões estão atualizadas
     userData.permissions = getAvailablePermissions(userData.role);
     localStorage.setItem('@SecureBridgeConnect:user', JSON.stringify(userData));
     setUser(userData);
