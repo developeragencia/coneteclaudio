@@ -46,34 +46,10 @@
         0% { transform: rotate(0deg); }
         100% { transform: rotate(360deg); }
       }
-      .fade-out {
-        animation: fadeOut 0.3s ease-out forwards;
-      }
-      @keyframes fadeOut {
-        from { opacity: 1; }
-        to { opacity: 0; }
-      }
     </style>
   </head>
   <body>
-    <div id="root">
-      <div class="loading-screen" id="loading-screen">
-        <div class="loading-spinner"></div>
-        <p class="loading-text">Carregando sistema...</p>
-      </div>
-    </div>
+    <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
-    <script>
-      // Remove o loading screen quando a aplicação estiver pronta
-      window.addEventListener('load', () => {
-        const loadingScreen = document.getElementById('loading-screen');
-        if (loadingScreen) {
-          loadingScreen.classList.add('fade-out');
-          setTimeout(() => {
-            loadingScreen.style.display = 'none';
-          }, 300);
-        }
-      });
-    </script>
   </body>
 </html>

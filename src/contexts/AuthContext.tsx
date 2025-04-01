@@ -11,20 +11,18 @@ interface AuthContextData {
   signIn: (credentials: { email: string; password: string }) => Promise<void>;
   signOut: () => void;
   updateUser: (user: User) => void;
-  navigate?: (path: string) => void;
 }
 
 interface AuthProviderProps {
   children: React.ReactNode;
-  navigate?: (path: string) => void;
 }
 
 export const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 
-export const AuthProvider: React.FC<AuthProviderProps> = ({ children, navigate }) => {
+export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const navigateInternal = useNavigate();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const loadStoredData = async () => {
@@ -72,10 +70,11 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children, navigate }
       
       setUser(mockUser);
       toast.success('Login realizado com sucesso!');
-      navigateInternal('/dashboard');
+      navigate('/dashboard');
     } catch (error) {
       console.error('Erro no login:', error);
       toast.error('Erro ao fazer login. Tente novamente.');
+      throw error;
     } finally {
       setIsLoading(false);
     }
@@ -85,7 +84,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children, navigate }
     localStorage.removeItem('@SecureBridgeConnect:user');
     localStorage.removeItem('@SecureBridgeConnect:token');
     setUser(null);
-    navigateInternal('/login');
+    navigate('/login');
   };
 
   const updateUser = (userData: User) => {
@@ -108,8 +107,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children, navigate }
         isLoading,
         signIn,
         signOut,
-        updateUser,
-        navigate: navigateInternal,
+        updateUser
       }}
     >
       {children}
