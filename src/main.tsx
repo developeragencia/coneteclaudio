@@ -1,10 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter, useNavigate } from 'react-router-dom';
 import { ChakraProvider } from '@chakra-ui/react';
 import App from './App';
 import theme from './styles/theme';
 import './styles/index.css';
+import { AuthProvider } from './contexts/AuthContext';
 
 const root = document.getElementById("root");
 
@@ -21,6 +22,10 @@ class ErrorBoundary extends React.Component<{ children: React.ReactNode }, { has
 
   static getDerivedStateFromError() {
     return { hasError: true };
+  }
+
+  componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
+    console.error('Error caught by boundary:', error, errorInfo);
   }
 
   render() {
@@ -44,14 +49,25 @@ class ErrorBoundary extends React.Component<{ children: React.ReactNode }, { has
   }
 }
 
+// Wrapper component to provide navigation
+function AppWithProviders() {
+  const navigate = useNavigate();
+  
+  return (
+    <ErrorBoundary>
+      <ChakraProvider theme={theme}>
+        <AuthProvider navigate={navigate}>
+          <App />
+        </AuthProvider>
+      </ChakraProvider>
+    </ErrorBoundary>
+  );
+}
+
 ReactDOM.createRoot(root).render(
   <React.StrictMode>
-    <ErrorBoundary>
-      <BrowserRouter>
-        <ChakraProvider theme={theme}>
-          <App />
-        </ChakraProvider>
-      </BrowserRouter>
-    </ErrorBoundary>
+    <BrowserRouter>
+      <AppWithProviders />
+    </BrowserRouter>
   </React.StrictMode>
 );

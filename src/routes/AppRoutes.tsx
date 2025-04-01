@@ -2,6 +2,7 @@ import { lazy, Suspense } from 'react';
 import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { PrivateRoute } from '@/components/auth/PrivateRoute';
 import AdminLayout from '@/components/admin/AdminLayout';
+import { LoadingFallback } from '@/components/ui/LoadingFallback';
 
 // Lazy loaded components
 const Login = lazy(() => import('@/pages/Login'));
@@ -9,15 +10,6 @@ const AdminDashboard = lazy(() => import('@/components/admin/AdminDashboard'));
 const AdminUsers = lazy(() => import('@/components/admin/AdminUsers'));
 const ClientsPanel = lazy(() => import('@/components/admin/clients/ClientsPanel').then(m => ({ default: m.ClientsPanel })));
 const SuppliersPanel = lazy(() => import('@/components/admin/suppliers/SuppliersPanel').then(m => ({ default: m.SuppliersPanel })));
-
-const LoadingFallback = () => (
-  <div className="fixed inset-0 flex items-center justify-center bg-background">
-    <div className="flex flex-col items-center gap-4">
-      <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
-      <p className="text-muted-foreground">Carregando...</p>
-    </div>
-  </div>
-);
 
 export function AppRoutes() {
   const location = useLocation();
