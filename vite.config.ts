@@ -22,9 +22,6 @@ export default defineConfig(({ mode }) => ({
   },
   optimizeDeps: {
     include: [
-      'date-fns',
-      'axios',
-      'zod',
       '@supabase/supabase-js',
       'lucide-react',
       'framer-motion',
@@ -34,7 +31,7 @@ export default defineConfig(({ mode }) => ({
       '@radix-ui/react-tabs',
       'react-router-dom'
     ],
-    exclude: []
+    exclude: ['date-fns']
   },
   build: {
     target: 'esnext',
@@ -44,6 +41,7 @@ export default defineConfig(({ mode }) => ({
     sourcemap: false,
     reportCompressedSize: false,
     rollupOptions: {
+      external: ['date-fns'],
       input: {
         main: path.resolve(__dirname, "index.html"),
       },
@@ -53,7 +51,7 @@ export default defineConfig(({ mode }) => ({
           if (id.includes('node_modules')) {
             if (id.includes('react')) return 'vendor-react';
             if (id.includes('@radix-ui')) return 'vendor-ui';
-            if (id.includes('date-fns') || id.includes('axios') || id.includes('zod')) return 'vendor-utils';
+            if (id.includes('axios') || id.includes('zod')) return 'vendor-utils';
             if (id.includes('lucide-react')) return 'vendor-icons';
             if (id.includes('framer-motion')) return 'vendor-motion';
             if (id.includes('@supabase')) return 'vendor-supabase';
@@ -77,6 +75,9 @@ export default defineConfig(({ mode }) => ({
           if (id.includes('/components/ui/')) return 'ui';
           if (id.includes('/pages/')) return 'pages';
           return null;
+        },
+        paths: {
+          'date-fns': 'https://cdn.jsdelivr.net/npm/date-fns@2.30.0/esm/index.js'
         },
         chunkFileNames: (chunkInfo) => {
           const name = chunkInfo.name;
