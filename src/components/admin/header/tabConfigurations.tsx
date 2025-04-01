@@ -1,4 +1,3 @@
-
 import React from 'react';
 import {
   User,
@@ -11,18 +10,17 @@ import {
   Paintbrush,
   CreditCard,
   Calculator,
-  BriefcaseBusiness,
+  Briefcase,
   Building,
   BarChart3,
   Receipt,
   ServerCog,
   FileDigit,
   FileClock,
-  ChartPie,
   FileSpreadsheet,
   FolderCheck,
   Search,
-  MessageSquareText,
+  MessageSquare,
   HelpCircle,
   CreditCard as BillingIcon,
   Bell,
@@ -67,7 +65,7 @@ export const tabConfigurations = {
     description: 'Gerenciamento de créditos tributários'
   },
   recovery: {
-    icon: BriefcaseBusiness,
+    icon: Briefcase,
     title: 'Recuperação',
     description: 'Gestão de processos de recuperação de créditos'
   },
@@ -92,7 +90,7 @@ export const tabConfigurations = {
     description: 'Simulações e cálculos de IRRF'
   },
   irrf_recovery: {
-    icon: BriefcaseBusiness,
+    icon: Briefcase,
     title: 'Recuperação IRRF/PJ',
     description: 'Gestão de recuperação de IRRF para empresas'
   },
@@ -132,7 +130,7 @@ export const tabConfigurations = {
     description: 'Relatórios detalhados sobre os créditos'
   },
   interactive_dashboard: {
-    icon: ChartPie,
+    icon: PieChart,
     title: 'Dashboard Interativo',
     description: 'Painel interativo com métricas e análises'
   },
@@ -147,7 +145,7 @@ export const tabConfigurations = {
     description: 'Importação de dados operacionais'
   },
   operational_recovery: {
-    icon: BriefcaseBusiness,
+    icon: Briefcase,
     title: 'Recuperação Operacional',
     description: 'Processos de recuperação operacional'
   },
@@ -202,7 +200,7 @@ export const tabConfigurations = {
     description: 'Gerencie informações de pagamento e faturamento'
   },
   support: {
-    icon: MessageSquareText,
+    icon: MessageSquare,
     title: 'Suporte',
     description: 'Entre em contato com nossa equipe de suporte'
   },
