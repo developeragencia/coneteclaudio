@@ -13,8 +13,7 @@ export default defineConfig(({ mode }) => ({
   plugins: [
     react(),
     tsconfigPaths(),
-    mode === 'development' &&
-    componentTagger(),
+    mode === 'development' && componentTagger(),
   ].filter(Boolean),
   resolve: {
     alias: {
@@ -22,7 +21,19 @@ export default defineConfig(({ mode }) => ({
     },
   },
   optimizeDeps: {
-    include: ['date-fns', 'axios', 'zod', '@supabase/supabase-js', 'lucide-react', 'framer-motion'],
+    include: [
+      'date-fns',
+      'axios',
+      'zod',
+      '@supabase/supabase-js',
+      'lucide-react',
+      'framer-motion',
+      '@radix-ui/react-dialog',
+      '@radix-ui/react-label',
+      '@radix-ui/react-select',
+      '@radix-ui/react-tabs',
+      'react-router-dom'
+    ],
     exclude: []
   },
   build: {
@@ -36,14 +47,23 @@ export default defineConfig(({ mode }) => ({
       input: {
         main: path.resolve(__dirname, "index.html"),
       },
-      external: ['date-fns'],
       output: {
         manualChunks: {
           'vendor-react': ['react', 'react-dom', 'react-router-dom'],
-          'vendor-ui': ['@radix-ui/react-dialog', '@radix-ui/react-label', '@radix-ui/react-select', '@radix-ui/react-tabs'],
+          'vendor-ui': [
+            '@radix-ui/react-dialog',
+            '@radix-ui/react-label',
+            '@radix-ui/react-select',
+            '@radix-ui/react-tabs',
+            '@radix-ui/react-toast',
+            '@radix-ui/react-dropdown-menu',
+            '@radix-ui/react-avatar',
+            '@radix-ui/react-slot'
+          ],
           'vendor-utils': ['date-fns', 'axios', 'zod'],
           'vendor-icons': ['lucide-react'],
           'vendor-motion': ['framer-motion'],
+          'vendor-supabase': ['@supabase/supabase-js'],
           'admin': [
             './src/components/admin/dashboard',
             './src/components/admin/header',
@@ -55,8 +75,24 @@ export default defineConfig(({ mode }) => ({
           'auth': ['./src/components/auth'],
           'ui': ['./src/components/ui']
         },
-        chunkFileNames: 'assets/[name]-[hash].js',
-        assetFileNames: 'assets/[name]-[hash][extname]',
+        chunkFileNames: (chunkInfo) => {
+          const name = chunkInfo.name;
+          if (name?.includes('node_modules')) {
+            return 'assets/vendor-[name]-[hash].js';
+          }
+          return 'assets/[name]-[hash].js';
+        },
+        assetFileNames: (assetInfo) => {
+          const name = assetInfo?.name || '';
+          const extType = name.split('.')[1] || '';
+          if (/png|jpe?g|svg|gif|tiff|bmp|ico/i.test(extType)) {
+            return 'assets/images/[name]-[hash][extname]';
+          }
+          if (/css/i.test(extType)) {
+            return 'assets/css/[name]-[hash][extname]';
+          }
+          return 'assets/[name]-[hash][extname]';
+        },
         entryFileNames: 'assets/[name]-[hash].js',
       },
     },
