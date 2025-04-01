@@ -35,8 +35,8 @@ const Login: React.FC = () => {
           <CardDescription>
             Entre com suas credenciais para acessar o sistema
           </CardDescription>
-        </CardHeader>
-        <CardContent>
+          </CardHeader>
+          <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-2">
               <label htmlFor="email" className="text-sm font-medium">
@@ -79,8 +79,8 @@ const Login: React.FC = () => {
               )}
             </Button>
           </form>
-        </CardContent>
-      </Card>
+          </CardContent>
+        </Card>
     </div>
   );
 };

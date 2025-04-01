@@ -3,6 +3,7 @@ import react from "@vitejs/plugin-react-swc";
 import path from "path";
 import { componentTagger } from "lovable-tagger";
 import tsconfigPaths from "vite-tsconfig-paths";
+import compression from 'vite-plugin-compression';
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
@@ -23,11 +24,23 @@ export default defineConfig(({ mode }) => ({
   plugins: [
     react({
       jsxRuntime: 'automatic',
-      devTools: true,
+      devTools: mode === 'development',
       refresh: true
     }),
     tsconfigPaths(),
     mode === 'development' && componentTagger(),
+    compression({
+      algorithm: 'gzip',
+      ext: '.gz',
+      threshold: 10240,
+      deleteOriginFile: false
+    }),
+    compression({
+      algorithm: 'brotli',
+      ext: '.br',
+      threshold: 10240,
+      deleteOriginFile: false
+    })
   ].filter(Boolean),
   resolve: {
     alias: {
@@ -41,7 +54,7 @@ export default defineConfig(({ mode }) => ({
     outDir: "dist",
     assetsDir: "assets",
     emptyOutDir: true,
-    sourcemap: false,
+    sourcemap: mode === 'development',
     chunkSizeWarningLimit: 1600,
     rollupOptions: {
       input: {
@@ -52,6 +65,7 @@ export default defineConfig(({ mode }) => ({
           'react-vendor': ['react', 'react-dom', 'react-router-dom'],
           'ui-vendor': ['@radix-ui/react-toast', '@radix-ui/react-slot', 'class-variance-authority', 'clsx', 'tailwind-merge'],
           'animation-vendor': ['framer-motion'],
+          'utils': ['date-fns', 'sonner']
         },
         entryFileNames: 'assets/[name].[hash].js',
         chunkFileNames: 'assets/[name].[hash].js',
@@ -72,8 +86,11 @@ export default defineConfig(({ mode }) => ({
       '@radix-ui/react-slot',
       'class-variance-authority',
       'clsx',
-      'tailwind-merge'
-    ]
+      'tailwind-merge',
+      'date-fns',
+      'sonner'
+    ],
+    exclude: ['@babel/runtime']
   },
   preview: {
     port: 3000,

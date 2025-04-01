@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { Suspense, lazy } from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import { Toaster } from 'sonner';
-import App from './App';
 import './styles/index.css';
 import { AuthProvider } from './contexts/AuthContext';
+
+// Lazy load App component
+const App = lazy(() => import('./App'));
 
 const root = document.getElementById("root");
 
@@ -48,12 +50,24 @@ class ErrorBoundary extends React.Component<{ children: React.ReactNode }, { has
   }
 }
 
+// Loading component
+const LoadingFallback = () => (
+  <div className="fixed inset-0 flex items-center justify-center bg-background">
+    <div className="text-center">
+      <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+      <p className="text-gray-600">Carregando...</p>
+    </div>
+  </div>
+);
+
 // Wrapper component to provide navigation
 function AppWithProviders() {
   return (
     <ErrorBoundary>
       <AuthProvider>
-        <App />
+        <Suspense fallback={<LoadingFallback />}>
+          <App />
+        </Suspense>
       </AuthProvider>
     </ErrorBoundary>
   );

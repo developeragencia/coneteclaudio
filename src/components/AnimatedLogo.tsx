@@ -40,7 +40,7 @@ const AnimatedLogo: React.FC<AnimatedLogoProps> = ({
             Claudio Figueiredo
           </span>
         </div>
-      </div>
+    </div>
     </motion.div>
   );
 };

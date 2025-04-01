@@ -13,9 +13,9 @@ const NotFound = React.lazy(() => import('@/pages/NotFound'));
 const App: React.FC = () => {
   return (
     <Suspense fallback={<Preloader message="Carregando aplicação..." />}>
-      <Routes>
+            <Routes>
         {/* Rotas públicas */}
-        <Route path="/login" element={<Login />} />
+              <Route path="/login" element={<Login />} />
         
         {/* Rotas protegidas */}
         <Route element={<PrivateRoute />}>
@@ -26,8 +26,8 @@ const App: React.FC = () => {
         </Route>
 
         {/* Rota 404 */}
-        <Route path="*" element={<NotFound />} />
-      </Routes>
+                <Route path="*" element={<NotFound />} />
+            </Routes>
     </Suspense>
   );
 };

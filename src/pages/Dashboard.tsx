@@ -9,45 +9,45 @@ const Dashboard: React.FC = () => {
     <div className="container mx-auto p-6">
       <div className="flex items-center justify-between mb-8">
         <h1 className="text-3xl font-bold">Dashboard</h1>
-        <p className="text-sm text-muted-foreground">
+                <p className="text-sm text-muted-foreground">
           Bem-vindo, {user?.name}!
         </p>
-      </div>
+          </div>
 
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         <Card>
-          <CardHeader>
+              <CardHeader>
             <CardTitle>Visão Geral</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-sm text-muted-foreground">
+              </CardHeader>
+              <CardContent>
+                <p className="text-sm text-muted-foreground">
               Visualize suas estatísticas e métricas principais.
-            </p>
-          </CardContent>
-        </Card>
+                </p>
+              </CardContent>
+            </Card>
 
-        <Card>
-          <CardHeader>
+            <Card>
+              <CardHeader>
             <CardTitle>Atividades Recentes</CardTitle>
-          </CardHeader>
-          <CardContent>
+              </CardHeader>
+              <CardContent>
             <p className="text-sm text-muted-foreground">
               Acompanhe suas últimas atividades no sistema.
             </p>
-          </CardContent>
-        </Card>
+              </CardContent>
+            </Card>
 
-        <Card>
-          <CardHeader>
+            <Card>
+              <CardHeader>
             <CardTitle>Notificações</CardTitle>
-          </CardHeader>
-          <CardContent>
+              </CardHeader>
+              <CardContent>
             <p className="text-sm text-muted-foreground">
               Veja suas notificações e alertas importantes.
             </p>
-          </CardContent>
-        </Card>
-      </div>
+              </CardContent>
+            </Card>
+          </div>
     </div>
   );
 };
