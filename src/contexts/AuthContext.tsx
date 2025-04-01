@@ -1,7 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
-import Preloader from '@/components/ui/Preloader';
 import { User } from '@/types/user';
 import { getAvailablePermissions } from '@/lib/permissions';
 
@@ -40,9 +39,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children, navigate }
         }
       } catch (error) {
         console.error('Erro ao carregar dados:', error);
-        toast.error('Erro ao carregar dados do usuário');
+        localStorage.removeItem('@SecureBridgeConnect:user');
+        localStorage.removeItem('@SecureBridgeConnect:token');
       } finally {
-        // Garante que o loading seja finalizado mesmo em caso de erro
         setIsLoading(false);
       }
     };
@@ -62,7 +61,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children, navigate }
         id: '1',
         name: 'Usuário Teste',
         email: credentials.email,
-        role: 'admin'
+        role: 'admin',
+        permissions: getAvailablePermissions('admin')
       };
       
       const mockToken = 'mock-jwt-token';
@@ -82,12 +82,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children, navigate }
   };
 
   const signOut = () => {
-    setIsLoading(true);
     localStorage.removeItem('@SecureBridgeConnect:user');
     localStorage.removeItem('@SecureBridgeConnect:token');
     setUser(null);
-    navigateInternal('/');
-    setIsLoading(false);
+    navigateInternal('/login');
   };
 
   const updateUser = (userData: User) => {
@@ -95,14 +93,12 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children, navigate }
       userData.permissions = getAvailablePermissions(userData.role);
       localStorage.setItem('@SecureBridgeConnect:user', JSON.stringify(userData));
       setUser(userData);
+      toast.success('Perfil atualizado com sucesso!');
     } catch (error) {
       console.error('Erro ao atualizar usuário:', error);
+      toast.error('Erro ao atualizar perfil');
     }
   };
-
-  if (isLoading) {
-    return <Preloader message="Verificando autenticação..." />;
-  }
 
   return (
     <AuthContext.Provider
