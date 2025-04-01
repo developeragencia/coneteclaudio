@@ -77,6 +77,48 @@ class SupplierService {
     const cleanAccount = account.replace(/\D/g, '');
     return bank.length > 0 && cleanAgency.length >= 4 && cleanAccount.length >= 5;
   }
+
+  formatBankBranch(branch: string): string {
+    const cleanBranch = branch.replace(/\D/g, '');
+    return cleanBranch.replace(/(\d{4})(\d*)/, '$1-$2');
+  }
+
+  formatBankAccount(account: string): string {
+    const cleanAccount = account.replace(/\D/g, '');
+    return cleanAccount.replace(/(\d{1,})(\d{1})$/, '$1-$2');
+  }
+
+  validatePixKey(key: string, type: 'cpf' | 'cnpj' | 'email' | 'phone' | 'random'): boolean {
+    switch (type) {
+      case 'cpf':
+        return /^\d{11}$/.test(key.replace(/\D/g, ''));
+      case 'cnpj':
+        return /^\d{14}$/.test(key.replace(/\D/g, ''));
+      case 'email':
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(key);
+      case 'phone':
+        return /^\d{11}$/.test(key.replace(/\D/g, ''));
+      case 'random':
+        return /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(key);
+      default:
+        return false;
+    }
+  }
+
+  formatPixKey(key: string, type: 'cpf' | 'cnpj' | 'email' | 'phone' | 'random'): string {
+    switch (type) {
+      case 'cpf':
+        const cleanCPF = key.replace(/\D/g, '');
+        return cleanCPF.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
+      case 'cnpj':
+        return this.formatCNPJ(key);
+      case 'phone':
+        const cleanPhone = key.replace(/\D/g, '');
+        return cleanPhone.replace(/(\d{2})(\d{5})(\d{4})/, '($1) $2-$3');
+      default:
+        return key;
+    }
+  }
 }
 
 export const supplierService = new SupplierService(); 

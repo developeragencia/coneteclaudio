@@ -8,8 +8,9 @@ import { Dialog } from '@/components/ui/dialog';
 import { Label } from '@/components/ui/label';
 import { Loader2, Plus, Search } from 'lucide-react';
 import { toast } from 'sonner';
-import { SupplierService } from '@/services/supplier.service';
-import type { Supplier } from '@/types/supplier.types';
+import { supplierService } from '@/services/supplier.service';
+import type { Supplier } from '@/types/models';
+import type { SupplierFilters } from '@/services/supplier.service';
 
 export function SuppliersPanel() {
   const [loading, setLoading] = useState(false);
@@ -43,12 +44,12 @@ export function SuppliersPanel() {
   const loadSuppliers = async () => {
     setLoading(true);
     try {
-      const filter: SupplierFilter = {
-        searchTerm,
+      const filter: SupplierFilters = {
+        search: searchTerm,
         status: selectedStatus
       };
-      const data = await SupplierService.getSuppliers(filter);
-      setSuppliers(data);
+      const response = await supplierService.list(filter);
+      setSuppliers(response.data);
     } catch (error) {
       toast.error('Erro ao carregar fornecedores');
     } finally {
@@ -63,12 +64,12 @@ export function SuppliersPanel() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!SupplierService.validateCNPJ(formData.cnpj)) {
+    if (!supplierService.validateCNPJ(formData.cnpj)) {
       toast.error('CNPJ inválido');
       return;
     }
 
-    if (formData.pixKey && formData.pixKeyType && !SupplierService.validatePixKey(formData.pixKey, formData.pixKeyType)) {
+    if (formData.pixKey && formData.pixKeyType && !supplierService.validatePixKey(formData.pixKey, formData.pixKeyType)) {
       toast.error('Chave PIX inválida');
       return;
     }
@@ -76,15 +77,10 @@ export function SuppliersPanel() {
     setLoading(true);
     try {
       if (selectedSupplier) {
-        await SupplierService.updateSupplier(selectedSupplier.id, formData);
+        await supplierService.update(selectedSupplier.id, formData);
         toast.success('Fornecedor atualizado com sucesso');
       } else {
-        const cnpjExists = await SupplierService.checkCNPJExists(formData.cnpj);
-        if (cnpjExists) {
-          toast.error('CNPJ já cadastrado');
-          return;
-        }
-        await SupplierService.createSupplier(formData);
+        await supplierService.create(formData);
         toast.success('Fornecedor criado com sucesso');
       }
       setIsDialogOpen(false);
@@ -125,7 +121,7 @@ export function SuppliersPanel() {
     }
 
     try {
-      await SupplierService.deleteSupplier(id);
+      await supplierService.delete(id);
       toast.success('Fornecedor excluído com sucesso');
       loadSuppliers();
     } catch (error) {
@@ -157,21 +153,21 @@ export function SuppliersPanel() {
   const handleCNPJChange = (value: string) => {
     setFormData(prev => ({
       ...prev,
-      cnpj: SupplierService.formatCNPJ(value)
+      cnpj: supplierService.formatCNPJ(value)
     }));
   };
 
   const handleBankBranchChange = (value: string) => {
     setFormData(prev => ({
       ...prev,
-      bankBranch: SupplierService.formatBankBranch(value)
+      bankBranch: supplierService.formatBankBranch(value)
     }));
   };
 
   const handleBankAccountChange = (value: string) => {
     setFormData(prev => ({
       ...prev,
-      bankAccount: SupplierService.formatBankAccount(value)
+      bankAccount: supplierService.formatBankAccount(value)
     }));
   };
 
@@ -180,7 +176,7 @@ export function SuppliersPanel() {
 
     setFormData(prev => ({
       ...prev,
-      pixKey: SupplierService.formatPixKey(value, formData.pixKeyType)
+      pixKey: supplierService.formatPixKey(value, formData.pixKeyType)
     }));
   };
 

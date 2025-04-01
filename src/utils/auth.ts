@@ -1,4 +1,4 @@
-import jwtDecode from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode';
 
 const TOKEN_KEY = '@SecureBridge:token';
 const REFRESH_TOKEN_KEY = '@SecureBridge:refreshToken';

@@ -8,7 +8,9 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Label } from '@/components/ui/label';
 import { Loader2, Plus, Search, Edit2, Trash2, RefreshCw } from 'lucide-react';
 import { toast } from 'sonner';
-import { ClientService, Client, ClientFilter } from '@/services/client.service';
+import { clientService } from '@/services/client.service';
+import { type Client } from '@/types/models';
+import { type ClientFilters } from '@/services/client.service';
 
 export function ClientsPanel() {
   const [loading, setLoading] = useState(false);
@@ -36,12 +38,12 @@ export function ClientsPanel() {
   const loadClients = async () => {
     setLoading(true);
     try {
-      const filter: ClientFilter = {
-        searchTerm,
+      const filter: ClientFilters = {
+        search: searchTerm,
         status: selectedStatus
       };
-      const data = await ClientService.getClients(filter);
-      setClients(data);
+      const response = await clientService.list(filter);
+      setClients(response.data);
     } catch (error) {
       toast.error('Erro ao carregar clientes');
     } finally {
@@ -56,7 +58,7 @@ export function ClientsPanel() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!ClientService.validateCNPJ(formData.cnpj)) {
+    if (!clientService.validateDocument(formData.cnpj)) {
       toast.error('CNPJ inválido');
       return;
     }
@@ -64,15 +66,10 @@ export function ClientsPanel() {
     setLoading(true);
     try {
       if (selectedClient) {
-        await ClientService.updateClient(selectedClient.id, formData);
+        await clientService.update(selectedClient.id, formData);
         toast.success('Cliente atualizado com sucesso');
       } else {
-        const cnpjExists = await ClientService.checkCNPJExists(formData.cnpj);
-        if (cnpjExists) {
-          toast.error('CNPJ já cadastrado');
-          return;
-        }
-        await ClientService.createClient(formData);
+        await clientService.create(formData);
         toast.success('Cliente criado com sucesso');
       }
       setIsDialogOpen(false);
@@ -107,7 +104,7 @@ export function ClientsPanel() {
     }
 
     try {
-      await ClientService.deleteClient(id);
+      await clientService.delete(id);
       toast.success('Cliente excluído com sucesso');
       loadClients();
     } catch (error) {
@@ -134,7 +131,7 @@ export function ClientsPanel() {
     // Formatar CNPJ enquanto digita
     setFormData(prev => ({
       ...prev,
-      cnpj: ClientService.formatCNPJ(value)
+      cnpj: clientService.formatDocument(value)
     }));
   };
 

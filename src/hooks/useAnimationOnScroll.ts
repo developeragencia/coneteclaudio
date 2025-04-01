@@ -1,4 +1,3 @@
-
 import { useRef, useState, useEffect } from 'react';
 import { useIntersectionObserver } from './useIntersectionObserver';
 
@@ -71,8 +70,8 @@ export function useAnimationOnScroll<T extends HTMLElement>(
   // Generate class names based on animation type
   const getTransitionClasses = () => {
     const baseClasses = 'transition-all duration-500 ease-in-out';
-    const delayClass = delay > 0 ? `delay-[${delay}ms]` : '';
-    const durationClass = `duration-[${duration}ms]`;
+    const delayClass = delay > 0 ? `delay-&lsqb;${delay}ms&rsqb;` : '';
+    const durationClass = `duration-&lsqb;${duration}ms&rsqb;`;
 
     const animationClasses = {
       'fade-in': `${isVisible ? 'opacity-100' : 'opacity-0'}`,
