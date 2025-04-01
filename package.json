@@ -16,9 +16,7 @@
     "test:coverage": "vitest run --coverage",
     "test:ui": "vitest --ui",
     "clean": "rimraf dist",
-    "prebuild": "npm run clean",
-    "postbuild": "npm run test",
-    "update-deps": "npx update-browserslist-db@latest"
+    "prebuild": "npm run clean"
   },
   "dependencies": {
     "@heroicons/react": "^2.0.18",

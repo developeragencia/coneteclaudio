@@ -49,17 +49,17 @@ const FiscalReportsPanel: React.FC = () => {
       </motion.div>
 
       {/* Filtros */}
-      <Card>
+            <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Filter className="h-5 w-5" />
             Filtros e Configurações
-          </CardTitle>
-          <CardDescription>
+                </CardTitle>
+                <CardDescription>
             Configure os parâmetros do relatório
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
             <div className="space-y-2">
               <label className="text-sm font-medium">Período</label>
@@ -71,8 +71,8 @@ const FiscalReportsPanel: React.FC = () => {
                   locale={ptBR}
                   className="rounded-md border"
                 />
-              </div>
-            </div>
+                  </div>
+                </div>
             
             <div className="space-y-2">
               <label className="text-sm font-medium">Cliente</label>
@@ -86,7 +86,7 @@ const FiscalReportsPanel: React.FC = () => {
                   <SelectItem value="inativos">Clientes inativos</SelectItem>
                 </SelectContent>
               </Select>
-            </div>
+                    </div>
 
             <div className="space-y-2">
               <label className="text-sm font-medium">Formato de Exportação</label>
@@ -100,7 +100,7 @@ const FiscalReportsPanel: React.FC = () => {
                   <SelectItem value="json">JSON</SelectItem>
                 </SelectContent>
               </Select>
-            </div>
+                  </div>
 
             <div className="space-y-2 flex items-end">
               <Button 
@@ -115,10 +115,10 @@ const FiscalReportsPanel: React.FC = () => {
                 )}
                 Gerar Relatório
               </Button>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
 
       {/* Tipos de Relatórios */}
       <Tabs defaultValue="fiscal" className="space-y-4">
@@ -142,14 +142,14 @@ const FiscalReportsPanel: React.FC = () => {
         </TabsList>
 
         <TabsContent value="fiscal" className="space-y-4">
-          <Card>
+            <Card>
             <CardHeader>
               <CardTitle>Relatório Fiscal</CardTitle>
-              <CardDescription>
+                <CardDescription>
                 Relatórios detalhados sobre impostos, tributos e obrigações fiscais
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
               <div className="space-y-4">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <Button variant="outline" className="justify-start">
@@ -169,9 +169,9 @@ const FiscalReportsPanel: React.FC = () => {
                     Retenções na Fonte
                   </Button>
                 </div>
-              </div>
-            </CardContent>
-          </Card>
+                </div>
+              </CardContent>
+            </Card>
         </TabsContent>
 
         <TabsContent value="contabil" className="space-y-4">
@@ -183,7 +183,7 @@ const FiscalReportsPanel: React.FC = () => {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="space-y-4">
+                <div className="space-y-4">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <Button variant="outline" className="justify-start">
                     <FileSpreadsheet className="h-4 w-4 mr-2" />

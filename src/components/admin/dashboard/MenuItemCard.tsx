@@ -77,8 +77,8 @@ const MenuItemCard: React.FC<MenuItemCardProps> = ({ item }) => {
     }
     // Se a rota já começar com '/', use-a diretamente
     else if (item.route.startsWith('/')) {
-      navigate(item.route);
-    }
+        navigate(item.route);
+      }
     // Caso contrário, adicione o prefixo '/admin/'
     else {
       const finalRoute = `/admin/${item.route}`;

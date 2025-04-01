@@ -127,18 +127,18 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSuccess }) => {
             variants={inputVariants}
           >
             <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground transition-colors" />
-            <Input
-              id="email"
-              type="email"
-              placeholder="Seu e-mail"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+          <Input
+            id="email"
+            type="email"
+            placeholder="Seu e-mail"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
               onFocus={() => setFocusedField('email')}
               onBlur={() => setFocusedField(null)}
-              required
+            required
               className="pl-10 border-primary/20 focus-visible:ring-primary/30 transition-all duration-300"
-              aria-label="Email"
-            />
+            aria-label="Email"
+          />
           </motion.div>
         </div>
       </motion.div>
@@ -155,18 +155,18 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSuccess }) => {
             variants={inputVariants}
           >
             <Key className="absolute left-3 top-3 h-4 w-4 text-muted-foreground transition-colors" />
-            <Input
-              id="password"
+          <Input
+            id="password"
               type={showPassword ? 'text' : 'password'}
-              placeholder="••••••••"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+            placeholder="••••••••"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
               onFocus={() => setFocusedField('password')}
               onBlur={() => setFocusedField(null)}
-              required
+            required
               className="pl-10 pr-10 border-primary/20 focus-visible:ring-primary/30 transition-all duration-300"
-              aria-label="Senha"
-            />
+            aria-label="Senha"
+          />
             <motion.button
               type="button"
               className="absolute right-3 top-3 text-muted-foreground hover:text-foreground transition-colors"
@@ -206,17 +206,17 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSuccess }) => {
       </motion.div>
       
       <AnimatePresence mode="wait">
-        {error && (
-          <motion.div 
-            className="text-xs sm:text-sm text-destructive bg-destructive/10 p-2 sm:p-3 rounded-md"
+      {error && (
+        <motion.div 
+          className="text-xs sm:text-sm text-destructive bg-destructive/10 p-2 sm:p-3 rounded-md"
             initial={{ opacity: 0, y: -10, height: 0 }}
             animate={{ opacity: 1, y: 0, height: 'auto' }}
             exit={{ opacity: 0, y: -10, height: 0 }}
-            transition={{ duration: 0.3 }}
-          >
-            {error}
-          </motion.div>
-        )}
+          transition={{ duration: 0.3 }}
+        >
+          {error}
+        </motion.div>
+      )}
       </AnimatePresence>
       
       <motion.div
@@ -224,19 +224,19 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSuccess }) => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.3, delay: 0.7 }}
       >
-        <Button 
-          type="submit" 
+      <Button 
+        type="submit" 
           className="w-full transition-all duration-300 hover:shadow-lg hover:shadow-primary/20 bg-gradient-to-r from-primary to-primary/90 hover:scale-[1.02]"
-          disabled={loading}
-        >
-          {loading ? (
+        disabled={loading}
+      >
+        {loading ? (
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               className="flex items-center"
             >
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-              Entrando...
+            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+            Entrando...
             </motion.div>
           ) : (
             <motion.span
@@ -246,8 +246,8 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSuccess }) => {
             >
               Entrar
             </motion.span>
-          )}
-        </Button>
+        )}
+      </Button>
       </motion.div>
     </motion.form>
   );

@@ -9,7 +9,7 @@ import { Calendar } from '@/components/ui/calendar';
 import { DateRange } from 'react-day-picker';
 import { addDays } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
-import {
+import { 
   FileText,
   Upload,
   Download,
@@ -145,7 +145,7 @@ const RetentionReceiptsPanel: React.FC = () => {
         transition={{ duration: 0.5 }}
       >
         <h1 className="text-3xl font-bold tracking-tight">Comprovantes de Retenção</h1>
-        <p className="text-muted-foreground">
+          <p className="text-muted-foreground">
           Gerencie todos os comprovantes de retenção em um só lugar.
         </p>
       </motion.div>
@@ -191,7 +191,7 @@ const RetentionReceiptsPanel: React.FC = () => {
                 </SelectContent>
               </Select>
             </div>
-
+            
             <div className="space-y-2">
               <label className="text-sm font-medium">Buscar</label>
               <div className="flex gap-2">
@@ -203,7 +203,7 @@ const RetentionReceiptsPanel: React.FC = () => {
                 />
               </div>
             </div>
-
+            
             <div className="space-y-2 flex items-end">
               <Button 
                 className="w-full"
@@ -368,11 +368,11 @@ const RetentionReceiptsPanel: React.FC = () => {
         <Button variant="outline" className="flex-1">
           <Share2 className="h-4 w-4 mr-2" />
           Compartilhar
-        </Button>
+            </Button>
         <Button variant="outline" className="flex-1" disabled>
           <Trash2 className="h-4 w-4 mr-2" />
           Excluir
-        </Button>
+            </Button>
       </div>
     </div>
   );

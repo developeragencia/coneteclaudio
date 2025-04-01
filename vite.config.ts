@@ -21,6 +21,10 @@ export default defineConfig(({ mode }) => ({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  optimizeDeps: {
+    include: ['date-fns', 'axios', 'zod', '@supabase/supabase-js'],
+    exclude: []
+  },
   build: {
     outDir: "dist",
     sourcemap: true,
@@ -28,10 +32,12 @@ export default defineConfig(({ mode }) => ({
       input: {
         main: path.resolve(__dirname, "index.html"),
       },
+      external: ['date-fns'],
       output: {
         manualChunks: {
           vendor: ["react", "react-dom", "react-router-dom"],
           ui: ["@radix-ui/react-dialog", "@radix-ui/react-label", "@radix-ui/react-select"],
+          utils: ["axios", "zod", "@supabase/supabase-js"],
         },
       },
     },
