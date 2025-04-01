@@ -35,27 +35,20 @@ export default defineConfig(({ mode }) => ({
   },
   build: {
     target: 'esnext',
-    minify: 'esbuild',
+    minify: 'terser',
     cssMinify: true,
     outDir: "dist",
     assetsDir: "assets",
     emptyOutDir: true,
-    sourcemap: true,
+    sourcemap: false,
     rollupOptions: {
       input: {
         main: path.resolve(__dirname, "index.html"),
       },
       output: {
         manualChunks: {
-          'vendor': [
-            'react',
-            'react-dom',
-            'react-router-dom',
-            '@chakra-ui/react',
-            '@emotion/react',
-            '@emotion/styled',
-            'framer-motion'
-          ],
+          'react-vendor': ['react', 'react-dom', 'react-router-dom'],
+          'chakra-vendor': ['@chakra-ui/react', '@emotion/react', '@emotion/styled'],
         },
         entryFileNames: 'assets/[name].[hash].js',
         chunkFileNames: 'assets/[name].[hash].js',
