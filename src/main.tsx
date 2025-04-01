@@ -1,9 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter, useNavigate } from 'react-router-dom';
-import { ChakraProvider } from '@chakra-ui/react';
 import App from './App';
-import theme from './styles/theme';
 import './styles/index.css';
 import { AuthProvider } from './contexts/AuthContext';
 
@@ -55,15 +53,14 @@ function AppWithProviders() {
   
   return (
     <ErrorBoundary>
-      <ChakraProvider theme={theme}>
-        <AuthProvider navigate={navigate}>
-          <App />
-        </AuthProvider>
-      </ChakraProvider>
+      <AuthProvider navigate={navigate}>
+        <App />
+      </AuthProvider>
     </ErrorBoundary>
   );
 }
 
+// Render the app
 ReactDOM.createRoot(root).render(
   <React.StrictMode>
     <BrowserRouter>

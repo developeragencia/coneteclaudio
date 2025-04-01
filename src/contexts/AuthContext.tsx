@@ -21,7 +21,7 @@ export const AuthContext = createContext<AuthContextData>({} as AuthContextData)
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children, navigate }) => {
   const [user, setUser] = useState<User | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const { toast } = useToast();
 
   // Carrega os dados do usuário do localStorage
@@ -40,6 +40,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children, navigate }
         console.error('Erro ao carregar dados armazenados:', error);
         localStorage.removeItem('@SecureBridgeConnect:user');
         localStorage.removeItem('@SecureBridgeConnect:token');
+      } finally {
+        setIsLoading(false);
       }
     };
 
@@ -68,14 +70,14 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children, navigate }
 
       setUser(mockUser);
       
-      if (navigate) {
-        navigate('/admin');
-      }
-
       toast({
         title: "Login realizado com sucesso",
         description: "Bem-vindo de volta!",
       });
+
+      if (navigate) {
+        navigate('/admin');
+      }
     } catch (error) {
       console.error('Erro ao fazer login:', error);
       toast({
@@ -89,22 +91,21 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children, navigate }
   }, [navigate, toast]);
 
   const signOut = useCallback(() => {
-    setIsLoading(true);
     try {
       localStorage.removeItem('@SecureBridgeConnect:user');
       localStorage.removeItem('@SecureBridgeConnect:token');
       setUser(null);
       
-      if (navigate) {
-        navigate('/login');
-      }
-
       toast({
         title: "Logout realizado com sucesso",
         description: "Até logo!",
       });
-    } finally {
-      setIsLoading(false);
+
+      if (navigate) {
+        navigate('/login');
+      }
+    } catch (error) {
+      console.error('Erro ao fazer logout:', error);
     }
   }, [navigate, toast]);
 
