@@ -9,6 +9,13 @@ export default defineConfig(({ mode }) => ({
   server: {
     host: "::",
     port: 8080,
+    proxy: {
+      '/api': {
+        target: 'http://localhost:8000',
+        changeOrigin: true,
+        secure: false,
+      }
+    }
   },
   plugins: [
     react(),
@@ -26,11 +33,13 @@ export default defineConfig(({ mode }) => ({
       '@supabase/supabase-js',
       'lucide-react',
       'framer-motion',
-      '@radix-ui/react-dialog',
-      '@radix-ui/react-label',
-      '@radix-ui/react-select',
-      '@radix-ui/react-tabs',
-      'react-router-dom'
+      '@chakra-ui/react',
+      '@chakra-ui/icons',
+      '@emotion/react',
+      '@emotion/styled',
+      'react-router-dom',
+      'jwt-decode',
+      'axios'
     ]
   },
   build: {
@@ -38,7 +47,7 @@ export default defineConfig(({ mode }) => ({
     minify: 'esbuild',
     cssMinify: true,
     outDir: "dist",
-    sourcemap: false,
+    sourcemap: mode === 'development',
     reportCompressedSize: false,
     rollupOptions: {
       input: {
@@ -49,7 +58,8 @@ export default defineConfig(({ mode }) => ({
           // Vendor chunks
           if (id.includes('node_modules')) {
             if (id.includes('react')) return 'vendor-react';
-            if (id.includes('@radix-ui')) return 'vendor-ui';
+            if (id.includes('@chakra-ui')) return 'vendor-chakra';
+            if (id.includes('@emotion')) return 'vendor-emotion';
             if (id.includes('date-fns') || id.includes('axios') || id.includes('zod')) return 'vendor-utils';
             if (id.includes('lucide-react')) return 'vendor-icons';
             if (id.includes('framer-motion')) return 'vendor-motion';
@@ -57,31 +67,32 @@ export default defineConfig(({ mode }) => ({
             return 'vendor';
           }
           
-          // Admin sub-chunks
-          if (id.includes('/components/admin/')) {
-            if (id.includes('/dashboard')) return 'admin-dashboard';
-            if (id.includes('/users')) return 'admin-users';
-            if (id.includes('/clients')) return 'admin-clients';
-            if (id.includes('/suppliers')) return 'admin-suppliers';
-            if (id.includes('/tax-credits')) return 'admin-tax-credits';
-            if (id.includes('/tax-reports')) return 'admin-tax-reports';
-            if (id.includes('/operational')) return 'admin-operational';
-            return 'admin-core';
+          // Feature-based chunks
+          if (id.includes('/features/')) {
+            if (id.includes('/auth/')) return 'feature-auth';
+            if (id.includes('/clients/')) return 'feature-clients';
+            if (id.includes('/suppliers/')) return 'feature-suppliers';
+            if (id.includes('/payments/')) return 'feature-payments';
+            if (id.includes('/dashboard/')) return 'feature-dashboard';
+            return 'feature-core';
           }
           
-          // Other app chunks
-          if (id.includes('/components/auth/')) return 'auth';
-          if (id.includes('/components/ui/')) return 'ui';
+          // Shared chunks
+          if (id.includes('/components/shared/')) return 'shared';
+          if (id.includes('/hooks/')) return 'hooks';
+          if (id.includes('/utils/')) return 'utils';
+          if (id.includes('/services/')) return 'services';
           if (id.includes('/pages/')) return 'pages';
+          
           return null;
         },
         chunkFileNames: (chunkInfo) => {
-          const name = chunkInfo.name;
+          const name = chunkInfo?.name || '';
           if (name?.includes('vendor')) {
             return 'assets/vendor/[name]-[hash].js';
           }
-          if (name?.includes('admin-')) {
-            return 'assets/admin/[name]-[hash].js';
+          if (name?.includes('feature-')) {
+            return 'assets/features/[name]-[hash].js';
           }
           return 'assets/[name]-[hash].js';
         },
