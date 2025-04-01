@@ -10,7 +10,8 @@ export default defineConfig(({ mode }) => ({
   publicDir: 'public',
   server: {
     host: true,
-    port: 8080,
+    port: 3000,
+    open: true,
     proxy: {
       '/api': {
         target: 'http://localhost:8000',
@@ -62,6 +63,20 @@ export default defineConfig(({ mode }) => ({
     logOverride: { 'this-is-undefined-in-esm': 'silent' }
   },
   optimizeDeps: {
-    include: ['react', 'react-dom', 'react-router-dom', '@chakra-ui/react']
+    include: [
+      'react',
+      'react-dom',
+      'react-router-dom',
+      'framer-motion',
+      '@radix-ui/react-toast',
+      '@radix-ui/react-slot',
+      'class-variance-authority',
+      'clsx',
+      'tailwind-merge'
+    ]
+  },
+  preview: {
+    port: 3000,
+    host: true
   }
 }));

@@ -1,125 +1,87 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card';
-import { motion, AnimatePresence } from 'framer-motion';
-import LoginForm from '@/components/auth/LoginForm';
-import LoginHeader from '@/components/auth/LoginHeader';
-import LoginFooter from '@/components/auth/LoginFooter';
-import LoginBackground from '@/components/auth/LoginBackground';
-import LoginLoadingState from '@/components/auth/LoginLoadingState';
-import useLoginCheck from '@/hooks/useLoginCheck';
+import { useAuth } from '@/contexts/AuthContext';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Loader2 } from 'lucide-react';
 
-const cardVariants = {
-  hidden: {
-    opacity: 0,
-    y: 20,
-    scale: 0.95
-  },
-  visible: {
-    opacity: 1,
-    y: 0,
-    scale: 1,
-    transition: {
-      duration: 0.6,
-      ease: [0.6, -0.05, 0.01, 0.99],
-      staggerChildren: 0.1
-    }
-  }
-};
-
-const contentVariants = {
-  hidden: { opacity: 0, y: 10 },
-  visible: { opacity: 1, y: 0 }
-};
-
-const Login = () => {
-  const { initializing } = useLoginCheck();
+const Login: React.FC = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+  const { signIn } = useAuth();
   const navigate = useNavigate();
 
-  const handleLoginSuccess = () => {
-    // Using navigate instead of window.location for better performance
-    navigate('/admin', { replace: true });
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+
+    try {
+      await signIn({ email, password });
+      navigate('/dashboard');
+    } catch (error) {
+      console.error('Erro no login:', error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
-    <AnimatePresence mode="wait">
-      {initializing ? (
-        <motion.div
-          key="loading"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.3 }}
-        >
-          <LoginLoadingState />
-        </motion.div>
-      ) : (
-        <motion.div
-          key="login"
-          className="min-h-screen flex items-center justify-center overflow-hidden relative bg-gradient-to-br from-primary/5 to-secondary/10 dark:from-background dark:to-background/80 px-4"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.5 }}
-        >
-      <LoginBackground />
-      
-      <motion.div 
-        className="relative w-full max-w-md z-10"
-            variants={cardVariants}
-            initial="hidden"
-            animate="visible"
-      >
-        <Card className="shadow-xl border-primary/10 overflow-hidden bg-white/95 backdrop-blur-md dark:bg-background/80 transition-all duration-300 hover:shadow-primary/5">
-              <motion.div variants={contentVariants}>
-          <CardHeader className="space-y-1 text-center">
-            <LoginHeader />
-          </CardHeader>
-              </motion.div>
-
-              <motion.div variants={contentVariants}>
-          <CardContent>
-            <LoginForm onSuccess={handleLoginSuccess} />
-          </CardContent>
-              </motion.div>
-
-              <motion.div variants={contentVariants}>
-          <CardFooter className="flex justify-center text-center">
-            <LoginFooter />
-          </CardFooter>
-              </motion.div>
-        </Card>
-      </motion.div>
-
-          {/* Decorative elements */}
-          <motion.div
-            className="absolute -bottom-32 -left-32 w-64 h-64 bg-primary/5 rounded-full blur-3xl"
-            animate={{
-              scale: [1, 1.1, 1],
-              opacity: [0.3, 0.5, 0.3],
-            }}
-            transition={{
-              duration: 8,
-              repeat: Infinity,
-              ease: "linear"
-            }}
-          />
-          <motion.div
-            className="absolute -top-32 -right-32 w-64 h-64 bg-secondary/5 rounded-full blur-3xl"
-            animate={{
-              scale: [1, 1.2, 1],
-              opacity: [0.3, 0.5, 0.3],
-            }}
-            transition={{
-              duration: 10,
-              repeat: Infinity,
-              ease: "linear",
-              delay: 1
-            }}
-          />
-        </motion.div>
-      )}
-    </AnimatePresence>
+    <div className="min-h-screen flex items-center justify-center bg-background">
+      <Card className="w-full max-w-md">
+        <CardHeader>
+          <CardTitle>Login</CardTitle>
+          <CardDescription>
+            Entre com suas credenciais para acessar o sistema
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="space-y-2">
+              <label htmlFor="email" className="text-sm font-medium">
+                Email
+              </label>
+              <Input
+                id="email"
+                type="email"
+                placeholder="seu@email.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
+            </div>
+            <div className="space-y-2">
+              <label htmlFor="password" className="text-sm font-medium">
+                Senha
+              </label>
+              <Input
+                id="password"
+                type="password"
+                placeholder="••••••••"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+            </div>
+            <Button
+              type="submit"
+              className="w-full"
+              disabled={loading}
+            >
+              {loading ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Entrando...
+                </>
+              ) : (
+                'Entrar'
+              )}
+            </Button>
+          </form>
+        </CardContent>
+      </Card>
+    </div>
   );
 };
 
