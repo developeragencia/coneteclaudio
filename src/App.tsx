@@ -15,29 +15,23 @@ const App: React.FC = () => {
   const { isAuthenticated } = useAuth();
 
   return (
-    <Suspense fallback={<Preloader message="Carregando aplicação..." />}>
-      <Routes>
-        {/* Rota raiz */}
-        <Route path="/" element={
-          isAuthenticated ? <Navigate to="/dashboard" replace /> : <Navigate to="/login" replace />
-        } />
+    <Routes>
+      {/* Rota raiz */}
+      <Route path="/" element={<Login />} />
 
-        {/* Rotas públicas */}
-        <Route path="/login" element={
-          isAuthenticated ? <Navigate to="/dashboard" replace /> : <Login />
-        } />
-        
-        {/* Rotas protegidas */}
-        <Route element={<PrivateRoute />}>
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/settings" element={<Settings />} />
-        </Route>
+      {/* Rotas públicas */}
+      <Route path="/login" element={<Login />} />
+      
+      {/* Rotas protegidas */}
+      <Route element={<PrivateRoute />}>
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/settings" element={<Settings />} />
+      </Route>
 
-        {/* Rota 404 */}
-        <Route path="*" element={<NotFound />} />
-      </Routes>
-    </Suspense>
+      {/* Rota 404 */}
+      <Route path="*" element={<NotFound />} />
+    </Routes>
   );
 };
 
