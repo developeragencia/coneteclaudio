@@ -6,7 +6,8 @@ import tsconfigPaths from "vite-tsconfig-paths";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
-  base: './',
+  base: '/',
+  publicDir: 'public',
   server: {
     host: "::",
     port: 8080,
@@ -19,7 +20,11 @@ export default defineConfig(({ mode }) => ({
     }
   },
   plugins: [
-    react(),
+    react({
+      jsxRuntime: 'automatic',
+      devTools: true,
+      refresh: true
+    }),
     tsconfigPaths(),
     mode === 'development' && componentTagger(),
   ].filter(Boolean),
@@ -28,70 +33,37 @@ export default defineConfig(({ mode }) => ({
       "@": path.resolve(__dirname, "./src"),
     },
   },
-  optimizeDeps: {
-    include: [
-      'date-fns',
-      '@supabase/supabase-js',
-      'lucide-react',
-      'framer-motion',
-      '@chakra-ui/react',
-      '@chakra-ui/icons',
-      '@emotion/react',
-      '@emotion/styled',
-      'react-router-dom',
-      'jwt-decode',
-      'axios'
-    ]
-  },
   build: {
     target: 'esnext',
     minify: 'esbuild',
     cssMinify: true,
     outDir: "dist",
-    sourcemap: mode === 'development',
-    reportCompressedSize: false,
+    assetsDir: "assets",
+    emptyOutDir: true,
+    sourcemap: true,
     rollupOptions: {
       input: {
         main: path.resolve(__dirname, "index.html"),
       },
       output: {
-        manualChunks: (id) => {
-          // Vendor chunks
-          if (id.includes('node_modules')) {
-            if (id.includes('react')) return 'vendor-react';
-            if (id.includes('@chakra-ui')) return 'vendor-chakra';
-            if (id.includes('@emotion')) return 'vendor-emotion';
-            if (id.includes('date-fns') || id.includes('axios') || id.includes('zod')) return 'vendor-utils';
-            if (id.includes('lucide-react')) return 'vendor-icons';
-            if (id.includes('framer-motion')) return 'vendor-motion';
-            if (id.includes('@supabase')) return 'vendor-supabase';
-            return 'vendor';
-          }
-          
-          // Feature-based chunks
-          if (id.includes('/features/')) {
-            if (id.includes('/auth/')) return 'feature-auth';
-            if (id.includes('/clients/')) return 'feature-clients';
-            if (id.includes('/suppliers/')) return 'feature-suppliers';
-            if (id.includes('/payments/')) return 'feature-payments';
-            if (id.includes('/dashboard/')) return 'feature-dashboard';
-            return 'feature-core';
-          }
-          
-          // Shared chunks
-          if (id.includes('/components/shared/')) return 'shared';
-          if (id.includes('/hooks/')) return 'hooks';
-          if (id.includes('/utils/')) return 'utils';
-          if (id.includes('/services/')) return 'services';
-          if (id.includes('/pages/')) return 'pages';
-          
-          return null;
+        manualChunks: {
+          'vendor': [
+            'react',
+            'react-dom',
+            'react-router-dom',
+            '@chakra-ui/react',
+            '@emotion/react',
+            '@emotion/styled',
+            'framer-motion'
+          ],
         },
-        chunkFileNames: 'assets/[name].[hash].js',
-        assetFileNames: 'assets/[name].[hash][extname]',
         entryFileNames: 'assets/[name].[hash].js',
-      },
-    },
-    chunkSizeWarningLimit: 1000,
+        chunkFileNames: 'assets/[name].[hash].js',
+        assetFileNames: 'assets/[name].[hash][extname]'
+      }
+    }
   },
+  esbuild: {
+    logOverride: { 'this-is-undefined-in-esm': 'silent' }
+  }
 }));
