@@ -48,37 +48,28 @@ export default defineConfig(({ mode }) => ({
         main: path.resolve(__dirname, "index.html"),
       },
       output: {
-        manualChunks: {
-          'vendor-react': ['react', 'react-dom', 'react-router-dom'],
-          'vendor-ui': [
-            '@radix-ui/react-dialog',
-            '@radix-ui/react-label',
-            '@radix-ui/react-select',
-            '@radix-ui/react-tabs',
-            '@radix-ui/react-toast',
-            '@radix-ui/react-dropdown-menu',
-            '@radix-ui/react-avatar',
-            '@radix-ui/react-slot'
-          ],
-          'vendor-utils': ['date-fns', 'axios', 'zod'],
-          'vendor-icons': ['lucide-react'],
-          'vendor-motion': ['framer-motion'],
-          'vendor-supabase': ['@supabase/supabase-js'],
-          'admin': [
-            './src/components/admin/dashboard',
-            './src/components/admin/header',
-            './src/components/admin/sidebar',
-            './src/components/admin/tax-credits',
-            './src/components/admin/tax-reports',
-            './src/components/admin/operational'
-          ],
-          'auth': ['./src/components/auth'],
-          'ui': ['./src/components/ui']
+        manualChunks: (id) => {
+          // Vendor chunks
+          if (id.includes('node_modules')) {
+            if (id.includes('react')) return 'vendor-react';
+            if (id.includes('@radix-ui')) return 'vendor-ui';
+            if (id.includes('date-fns') || id.includes('axios') || id.includes('zod')) return 'vendor-utils';
+            if (id.includes('lucide-react')) return 'vendor-icons';
+            if (id.includes('framer-motion')) return 'vendor-motion';
+            if (id.includes('@supabase')) return 'vendor-supabase';
+            return 'vendor';
+          }
+          
+          // App chunks
+          if (id.includes('/components/admin/')) return 'admin';
+          if (id.includes('/components/auth/')) return 'auth';
+          if (id.includes('/components/ui/')) return 'ui';
+          return null;
         },
         chunkFileNames: (chunkInfo) => {
           const name = chunkInfo.name;
-          if (name?.includes('node_modules')) {
-            return 'assets/vendor-[name]-[hash].js';
+          if (name?.includes('vendor')) {
+            return 'assets/vendor/[name]-[hash].js';
           }
           return 'assets/[name]-[hash].js';
         },
