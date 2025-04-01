@@ -14,7 +14,6 @@ import {
   Filter,
   RefreshCw,
   FileSpreadsheet,
-  FilePdf,
   FileJson,
   Printer
 } from 'lucide-react';
@@ -132,7 +131,7 @@ const FiscalReportsPanel: React.FC = () => {
             Contábil
           </TabsTrigger>
           <TabsTrigger value="gerencial" className="flex items-center gap-2">
-            <FilePdf className="h-4 w-4" />
+            <FileText className="h-4 w-4" />
             Gerencial
           </TabsTrigger>
           <TabsTrigger value="consolidado" className="flex items-center gap-2">
@@ -219,19 +218,19 @@ const FiscalReportsPanel: React.FC = () => {
               <div className="space-y-4">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <Button variant="outline" className="justify-start">
-                    <FilePdf className="h-4 w-4 mr-2" />
+                    <FileText className="h-4 w-4 mr-2" />
                     Análise de Desempenho
                   </Button>
                   <Button variant="outline" className="justify-start">
-                    <FilePdf className="h-4 w-4 mr-2" />
+                    <FileText className="h-4 w-4 mr-2" />
                     Indicadores Financeiros
                   </Button>
                   <Button variant="outline" className="justify-start">
-                    <FilePdf className="h-4 w-4 mr-2" />
+                    <FileText className="h-4 w-4 mr-2" />
                     Projeções
                   </Button>
                   <Button variant="outline" className="justify-start">
-                    <FilePdf className="h-4 w-4 mr-2" />
+                    <FileText className="h-4 w-4 mr-2" />
                     Análise de Custos
                   </Button>
                 </div>

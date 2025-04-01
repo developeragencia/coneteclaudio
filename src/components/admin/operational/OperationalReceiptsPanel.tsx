@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -6,7 +5,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { 
-  ReceiptText, Search, Filter, ArrowUpDown, Download, Printer, 
+  Receipt, Search, Filter, ArrowUpDown, Download, Printer, 
   Eye, Copy, CheckCircle, XCircle, AlertCircle 
 } from "lucide-react";
 
@@ -26,7 +25,7 @@ const OperationalReceiptsPanel = () => {
             Filtros
           </Button>
           <Button className="flex items-center gap-2">
-            <ReceiptText className="h-4 w-4" />
+            <Receipt className="h-4 w-4" />
             Novo Recibo
           </Button>
         </div>
