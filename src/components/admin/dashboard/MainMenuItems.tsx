@@ -4,13 +4,12 @@ import {
   CreditCard,
   Calculator as CalculatorIcon,
   Percent,
-  BriefcaseBusiness,
+  Briefcase,
   Search,
   FileText,
   FileBarChart,
-  ChartPie,
-  Receipt,
   PieChart,
+  Receipt,
   FileDigit,
   Shield,
   FileSpreadsheet
@@ -65,7 +64,7 @@ export const getMainMenuItems = (): MenuItem[] => [
     id: 'irrf_recovery',
     title: 'Recuperação IRRF/PJ',
     description: 'Identifique oportunidades de recuperação de IRRF retido indevidamente sobre faturamento PJ.',
-    icon: <BriefcaseBusiness className="h-6 w-6 text-white" />,
+    icon: <Briefcase className="h-6 w-6 text-white" />,
     color: 'bg-gradient-to-br from-fuchsia-500 to-fuchsia-700',
     route: 'irrf_recovery'
   },
@@ -97,7 +96,7 @@ export const getMainMenuItems = (): MenuItem[] => [
     id: 'interactive_dashboard',
     title: 'Dashboard Interativo',
     description: 'Visualize dados em tempo real com gráficos interativos e filtros personalizáveis.',
-    icon: <ChartPie className="h-6 w-6 text-white" />,
+    icon: <PieChart className="h-6 w-6 text-white" />,
     color: 'bg-gradient-to-br from-amber-500 to-amber-700',
     route: 'interactive_dashboard'
   },
