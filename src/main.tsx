@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { BrowserRouter, useNavigate } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
+import { Toaster } from 'sonner';
 import App from './App';
 import './styles/index.css';
 import { AuthProvider } from './contexts/AuthContext';
@@ -49,11 +50,9 @@ class ErrorBoundary extends React.Component<{ children: React.ReactNode }, { has
 
 // Wrapper component to provide navigation
 function AppWithProviders() {
-  const navigate = useNavigate();
-  
   return (
     <ErrorBoundary>
-      <AuthProvider navigate={navigate}>
+      <AuthProvider>
         <App />
       </AuthProvider>
     </ErrorBoundary>
@@ -65,6 +64,7 @@ ReactDOM.createRoot(root).render(
   <React.StrictMode>
     <BrowserRouter>
       <AppWithProviders />
+      <Toaster position="top-right" richColors closeButton />
     </BrowserRouter>
   </React.StrictMode>
 );
